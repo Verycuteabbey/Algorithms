@@ -2,9 +2,9 @@
 ## Warning
 **This algorithm still in beta, there is no guarantee that there will be no problems during use**
 ### What is this?
-This is a Tween Logic Algorithm for Roblox, you can require() this for instead TweenService (# NOT ALL #)
+This is a Tween Logic Algorithm for Roblox, you can require() this for instead TweenService (**NOT ALL**)
 
-Algorithm is not finished yet, and also use harder of TweenService (# Hard at source code recompile #)
+Algorithm is not finished yet, and also use harder of TweenService (**Hard at source code recompile**)
 ### Use
 `Tween.Create()` is require 6 arguments:
 Instance | Property | EaseType | EaseDirection | End | Duration
