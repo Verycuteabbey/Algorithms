@@ -1,6 +1,6 @@
 # Open Source | Algorithms [Beta]
 
-(简体中文)[https://github.com/Verycuteabbey/Algorithms/blob/main/README_CN.md]
+[简体中文](https://github.com/Verycuteabbey/Algorithms/blob/main/README_CN.md)
 
 ## Warning
 **This algorithm still in beta, there is no guarantee that there will be no problems during use**
