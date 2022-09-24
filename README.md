@@ -1,6 +1,7 @@
 # Open Source | Algorithms [Beta]
 ## What is this?
 This is a Tween Logic Algorithm for Roblox, you can require() this for instead TweenService (# NOT ALL #)
+
 Algorithm is not finished yet, and also use harder of TweenService (# Hard at source code recompile #)
 
 ## Use
@@ -8,10 +9,15 @@ Algorithm is not finished yet, and also use harder of TweenService (# Hard at so
 Instance | Property | EaseType | EaseDirection | End | Duration
 
 Instance —————— Is can be any instances, type check is Instance
+
 Property —————— Is require to be "Instance" any property when you need to tween it
+
 EaseType —————— You can enable one of this: "Linear", "Quad", "Cubic", "Quart", "Quint", "Sine", "Expo", "Circ"
+
 EaseDirection —————— You can enable one of this: "In", "Out", "InOut"
+
 End —————— Is can be "CFrame", "number", "UDim", "UDim2", "Vector2", "Vector3", depend on your property need to tween it
+
 Duration —————— Tween running time
 
 ```lua
