@@ -20,6 +20,7 @@ End —————— Is can be "CFrame", "number", "UDim", "UDim2", "Vector2",
 
 Duration —————— Tween running time
 
+
 Example: Part's position (0, 0, 0) to (1, 1, 1)
 ```lua
 Tween.Create(game.Workspace.Part, "Position", "Quad", "Out", Vector3.new(1, 1, 1), 1);
