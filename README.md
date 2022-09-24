@@ -1,4 +1,7 @@
 # Open Source | Algorithms [Beta]
+
+(简体中文)[https://github.com/Verycuteabbey/Algorithms/blob/main/README_CN.md]
+
 ## Warning
 **This algorithm still in beta, there is no guarantee that there will be no problems during use**
 ### What is this?
@@ -11,13 +14,13 @@ Instance | Property | EaseType | EaseDirection | End | Duration
 
 Instance —————— Is can be any instances, type check is Instance
 
-Property —————— Is require to be "Instance" any property when you need to tween it
+Property —————— Is require to be "Instance" any property
 
 EaseType —————— You can enable one of this: "Linear", "Quad", "Cubic", "Quart", "Quint", "Sine", "Expo", "Circ"
 
 EaseDirection —————— You can enable one of this: "In", "Out", "InOut"
 
-End —————— Is can be "CFrame", "number", "UDim", "UDim2", "Vector2", "Vector3", depend on your property need to tween it
+End —————— Is can be "CFrame", "number", "UDim", "UDim2", "Vector2", "Vector3", depend on your tween property
 
 Duration —————— Tween running time
 
