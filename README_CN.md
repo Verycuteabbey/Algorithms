@@ -39,4 +39,4 @@ Tween.Create(game.Workspace.Part, "Position", "Quad", "Out", Vector3.new(1, 1, 1
 2.邮箱
  - mengmengyujie@hotmail.com
 
- - 487313236@qq.com (Not recommended)
+ - 487313236@qq.com (不推荐)
