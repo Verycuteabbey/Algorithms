@@ -4,8 +4,8 @@
 
 ## 警告
 **该算法还处于测试阶段，不能保证在使用过程中没有任何问题**
-### What is this?
-This is a Tween Logic Algorithm for Roblox, 你可以 require() 这个并且取代 TweenService (**不能是全部**)
+### 这是什么？
+这是一个适用于 Roblox 的 Tween 逻辑算法, 你可以 require() 这个并且取代 TweenService (**不能是全部**)
 
 算法并没有完善, 并且难用于 TweenService (**难在源码重编译**)
 ### 使用
