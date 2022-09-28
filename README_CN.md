@@ -16,7 +16,7 @@ Instance —————— 可以是任何 instances, 类型指定是 Instance
 
 Property —————— 要求是 "Instance" 的任何一个属性
 
-EaseType —————— 你可以应用这里的其中一个: "Linear", "Quad", "Cubic", "Quart", "Quint", "Sine", "Expo", "Circ"
+EaseType —————— 你可以应用这里的其中一个: "Linear", "Quad", "Cubic", "Quart", "Quint", "Sine", "Expo", "Circ", "Elastic", "Back", "Bounce"
 
 EaseDirection —————— 你可以应用这里的其中一个: "In", "Out", "InOut"
 
