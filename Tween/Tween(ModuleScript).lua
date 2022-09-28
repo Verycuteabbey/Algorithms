@@ -81,7 +81,7 @@ local function Transform(Origin)
 end;
 
 --———————————— Module Functions ————————————--
-function Tween.Create(Instance:Instance, Property:string, EaseStyle:string, EaseDirection:string, End, Duration:number)
+function Tween.Create(Instance:Instance, Property:string, EaseStyle:string, EaseDirection:string, End, Duration:number, ExtraProperties)
 	local function Main()
 		local PropertyType, PropertyNumber0, PropertyNumber1, PropertyNumber2, PropertyNumber3 = Transform(Instance[Property]);
 		local TransformType, TransformNumber0, TransformNumber1, TransformNumber2, TransformNumber3 = Transform(End);
@@ -119,33 +119,27 @@ function Tween.Create(Instance:Instance, Property:string, EaseStyle:string, Ease
 			local Lerp1;
 			local Lerp2;
 			local Lerp3;
-			local Lerps = {
-				[1] = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber0, TransformNumber0 - PropertyNumber0, Duration);
-				[2] = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber1, TransformNumber1 - PropertyNumber1, Duration);
-				[3] = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber2, TransformNumber2 - PropertyNumber2, Duration);
-				[4] = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber3, TransformNumber3 - PropertyNumber3, Duration);
-			}
 			if (TransformType == "CFrame") then
-				Lerp0 = Lerps[1];
-				Lerp1 = Lerps[2];
-				Lerp2 = Lerps[3];
+				Lerp0 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber0, TransformNumber0 - PropertyNumber0, Duration, ExtraProperties);
+				Lerp1 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber1, TransformNumber1 - PropertyNumber1, Duration, ExtraProperties);
+				Lerp2 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber2, TransformNumber2 - PropertyNumber2, Duration, ExtraProperties);
 			elseif (TransformType == "UDim") then
-				Lerp0 = Lerps[1];
-				Lerp1 = Lerps[2];
+				Lerp0 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber0, TransformNumber0 - PropertyNumber0, Duration, ExtraProperties);
+				Lerp1 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber1, TransformNumber1 - PropertyNumber1, Duration, ExtraProperties);
 			elseif (TransformType == "UDim2") then
-				Lerp0 = Lerps[1];
-				Lerp1 = Lerps[2];
-				Lerp2 = Lerps[3];
-				Lerp3 = Lerps[4];
+				Lerp0 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber0, TransformNumber0 - PropertyNumber0, Duration, ExtraProperties);
+				Lerp1 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber1, TransformNumber1 - PropertyNumber1, Duration, ExtraProperties);
+				Lerp2 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber2, TransformNumber2 - PropertyNumber2, Duration, ExtraProperties);
+				Lerp3 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber3, TransformNumber3 - PropertyNumber3, Duration, ExtraProperties);
 			elseif (TransformType == "Vector2") then
-				Lerp0 = Lerps[1];
-				Lerp1 = Lerps[2];
+				Lerp0 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber0, TransformNumber0 - PropertyNumber0, Duration, ExtraProperties);
+				Lerp1 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber1, TransformNumber1 - PropertyNumber1, Duration, ExtraProperties);
 			elseif (TransformType == "Vector3") then
-				Lerp0 = Lerps[1];
-				Lerp1 = Lerps[2];
-				Lerp2 = Lerps[3];
+				Lerp0 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber0, TransformNumber0 - PropertyNumber0, Duration, ExtraProperties);
+				Lerp1 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber1, TransformNumber1 - PropertyNumber1, Duration, ExtraProperties);
+				Lerp2 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber2, TransformNumber2 - PropertyNumber2, Duration, ExtraProperties);
 			else
-				Lerp0 = Lerps[1];
+				Lerp0 = Algorithm.GetLerp(EaseStyle, EaseDirection, NowTime, PropertyNumber0, TransformNumber0 - PropertyNumber0, Duration, ExtraProperties);
 			end;
 			--———————————— Enable ————————————--
 			Instance[Property] = Transforms[TransformType](Lerp0, Lerp1, Lerp2, Lerp3);
