@@ -24,7 +24,7 @@ End —————— Is can be "CFrame", "number", "UDim", "UDim2", "Vector2",
 
 Duration —————— Tween running time
 
-ExtraProperties —————— Only for ease style "Elastic" and "Back", look to [Extra Properties](https://github.com/Verycuteabbey/Algorithms/blob/main/README.md#Extra-Properties)
+ExtraProperties —————— Only for ease style "Elastic" and "Back", look to [Extra Properties](https://github.com/Verycuteabbey/Algorithms/blob/main/README.md#extra-properties-not-recommented)
 
 Example: Part's position (0, 0, 0) to (1, 1, 1)
 ```lua
