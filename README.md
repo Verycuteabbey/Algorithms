@@ -9,14 +9,14 @@ This is a Tween Logic Algorithm for Roblox, you can require() this for instead T
 
 Algorithm is not finished yet, and also use harder of TweenService (**Hard at source code recompile**)
 ### Use
-`Tween.Create()` is require 6 arguments:
-Instance | Property | EaseType | EaseDirection | End | Duration
+`Tween.Create()` is require 7 arguments:
+Instance | Property | EaseType | EaseDirection | End | Duration | ExtraProperties
 
 Instance —————— Is can be any instances, type check is Instance
 
 Property —————— Is require to be "Instance" any property
 
-EaseType —————— You can enable one of this: "Linear", "Quad", "Cubic", "Quart", "Quint", "Sine", "Expo", "Circ"
+EaseType —————— You can enable one of this: "Linear", "Quad", "Cubic", "Quart", "Quint", "Sine", "Expo", "Circ", "Elastic", "Back", "Bounce"
 
 EaseDirection —————— You can enable one of this: "In", "Out", "InOut"
 
@@ -24,10 +24,16 @@ End —————— Is can be "CFrame", "number", "UDim", "UDim2", "Vector2",
 
 Duration —————— Tween running time
 
+ExtraProperties —————— Only for ease style "Elastic" and "Back", look to [Extra Properties](https://github.com/Verycuteabbey/Algorithms/blob/main/README.md#Extra-Properties)
+
 Example: Part's position (0, 0, 0) to (1, 1, 1)
 ```lua
-Tween.Create(game.Workspace.Part, "Position", "Quad", "Out", Vector3.new(1, 1, 1), 1);
+Tween.Create(game.Workspace.Part, "Position", "Quad", "Out", Vector3.new(1, 1, 1), 1, {});
 ```
+### Extra Properties (**NOT RECOMMENTED**)
+Includes 3 arguments, "A", "P", "S", all are number
+
+--🚧 W.I.P 🚧--
 # End
 Thank you for using algorithms, we are trying to let this algorithm's experience get more better!
 
