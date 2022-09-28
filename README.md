@@ -31,7 +31,7 @@ Example: Part's position (0, 0, 0) to (1, 1, 1)
 Tween.Create(game.Workspace.Part, "Position", "Quad", "Out", Vector3.new(1, 1, 1), 1, {});
 ```
 ### Extra Properties (**NOT RECOMMENTED**)
-Includes 3 arguments, "A", "P", "S", all are number
+Includes 3 arguments, they are "A", "P", "S", all are number
 
 --🚧 W.I.P 🚧--
 # End
