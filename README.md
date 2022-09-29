@@ -31,9 +31,17 @@ Example: Part's position (0, 0, 0) to (1, 1, 1)
 Tween.Create(game.Workspace.Part, "Position", "Quad", "Out", Vector3.new(1, 1, 1), 1, {});
 ```
 ### Extra Properties (**NOT RECOMMENTED**)
+
+**If given a empty table will enable default argument's setting**
+
 Includes 3 arguments, they are "A", "P", "S", all are number
 
---🚧 W.I.P 🚧--
+"A" and "P" is for style "Elastic", "S" is for style "Back"
+
+Higher "A" and "P", elastic tween effect will more quickly (looks like?)
+
+Higher "S", back tween effect will more stronger
+
 # End
 Thank you for using algorithms, we are trying to let this algorithm's experience get more better!
 
