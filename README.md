@@ -37,7 +37,7 @@ Includes 2 arguments, they are "ElasticSpeed" and "BackDistance", all are number
 
 Smaller "ElasticSpeed" will let effect more quickly
 
-Higher "BackDistance" will let effect more farther
+Higher "BackDistance" will let effect distance more farther
 # End
 Thank you for using algorithms, we are trying to let this algorithm's experience get more better!
 
