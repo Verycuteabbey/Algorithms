@@ -8,8 +8,10 @@ Tween Algorithm + Tween Controller:
 # End
 Thank you for using algorithms, we are trying to let this algorithm's experience get more better!
 
-If you are find bugs, welcome you take a screenshot report to my email:
+If you are find bugs, welcome you take a screenshot report to my QQ or email:
 
-mengmengyujie@hotmail.com
+QQ: 487313236
 
-487313236@qq.com (Not recommended)
+Email:
+  - mengmengyujie@hotmail.com
+  - 487313236@qq.com (Not recommended)
