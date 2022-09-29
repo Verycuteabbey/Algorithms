@@ -1,5 +1,4 @@
 [简体中文](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/README_CN.md)
-
 ## Warning
 **This algorithm still in beta, there is no guarantee that there will be no problems during use**
 ### What is this?
@@ -8,6 +7,7 @@ This is a Tween Logic Algorithm for Roblox, you can require() this for instead T
 Algorithm is not finished yet, and also use harder of TweenService (**Hard at source code recompile**)
 ### Use
 `Tween.Create()` is require 7 arguments:
+
 Instance | Property | EaseType | EaseDirection | End | Duration | ExtraProperties
 
 Instance —————— Is can be any instances, type check is Instance
