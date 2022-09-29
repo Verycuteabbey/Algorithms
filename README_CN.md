@@ -40,8 +40,6 @@ Tween.Create(game.Workspace.Part, "Position", "Quad", "Out", Vector3.new(1, 1, 1
 "A" 与 "P" 越高, elastic tween 效果将会更加快 (看起来是的？)
 
 "S" 越高, back tween 效果将会更强
-
---🚧 施工 ing 🚧--
 # End
 感谢你使用该算法, 我们正在尝试让算法的体验变得更好!
 
