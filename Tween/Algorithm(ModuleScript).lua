@@ -3,6 +3,23 @@
 --———————————— Local Variable - Others ————————————--
 local Algorithm = {};
 
+--———————————— Local Functions ————————————--
+local function BounceLerp(NowTime:number, Start:number, End:number, Duration:number)
+	NowTime = NowTime/Duration;
+	if (NowTime < (1/2.75)) then
+		return End * (7.5625 * NowTime^2) + Start;
+	elseif (NowTime < (2/2.75)) then
+		NowTime -= 1.5/2.75;
+		return End * (7.5625 * NowTime^2 + 0.75) + Start;
+	elseif (NowTime < (2.5/2.75)) then
+		NowTime -= 2.25/2.75;
+		return End * (7.5625 * NowTime^2 + 0.9375) + Start;
+	else
+		NowTime -= 2.625/2.75;
+		return End * (7.5625 * NowTime^2 + 0.984375) + Start;
+	end;
+end;
+
 --———————————— Module Functions ————————————--
 function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:number, Start:number, End:number, Duration:number, ExtraProperties)
 	local Library = {
@@ -236,80 +253,13 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 		};
 		--———————————— Bounce ————————————--
 		["Bounce"] = {
-			["In"] = function()
-				local function Lerp()
-					NowTime = Duration - NowTime;
-					Start = 0;
-					NowTime = NowTime/Duration;
-					if (NowTime < (1/2.75)) then
-						return End * (7.5625 * NowTime^2) + Start;
-					elseif (NowTime < (2/2.75)) then
-						NowTime -= 1.5/2.75;
-						return End * (7.5625 * NowTime^2 + 0.75) + Start;
-					elseif (NowTime < (2.5/2.75)) then
-						NowTime -= 2.25/2.75;
-						return End * (7.5625 * NowTime^2 + 0.9375) + Start;
-					else
-						NowTime -= 2.625/2.75;
-						return End * (7.5625 * NowTime^2 + 0.984375) + Start;
-					end;
-				end;
-				return End - Lerp() + Start;
-			end;
-			["Out"] = function()
-				NowTime = NowTime/Duration;
-				if (NowTime < (1/2.75)) then
-					return End * (7.5625 * NowTime^2) + Start;
-				elseif (NowTime < (2/2.75)) then
-					NowTime -= 1.5/2.75;
-					return End * (7.5625 * NowTime^2 + 0.75) + Start;
-				elseif (NowTime < (2.5/2.75)) then
-					NowTime -= 2.25/2.75;
-					return End * (7.5625 * NowTime^2 + 0.9375) + Start;
-				else
-					NowTime -= 2.625/2.75;
-					return End * (7.5625 * NowTime^2 + 0.984375) + Start;
-				end;
-			end;
+			["In"] = End - BounceLerp(Duration - NowTime, 0, End, Duration) + Start;
+			["Out"] = BounceLerp(NowTime, Start, End, Duration);
 			["InOut"] = function()
 				if (NowTime < Duration/2) then
-					local function Lerp()
-						NowTime = NowTime * 2;
-						Start = 0;
-						NowTime = NowTime/Duration;
-						if (NowTime < (1/2.75)) then
-							return End * (7.5625 * NowTime^2) + Start;
-						elseif (NowTime < (2/2.75)) then
-							NowTime -= 1.5/2.75;
-							return End * (7.5625 * NowTime^2 + 0.75) + Start;
-						elseif (NowTime < (2.5/2.75)) then
-							NowTime -= 2.25/2.75;
-							return End * (7.5625 * NowTime^2 + 0.9375) + Start;
-						else
-							NowTime -= 2.625/2.75;
-							return End * (7.5625 * NowTime^2 + 0.984375) + Start;
-						end;
-					end;
-					return Lerp() * 0.5 + Start;
+					return BounceLerp(NowTime * 2, 0, End, Duration) * 0.5 + Start;
 				else
-					local function Lerp()
-						NowTime = NowTime * 2 - Duration;
-						Start = 0;
-						NowTime = NowTime/Duration;
-						if (NowTime < (1/2.75)) then
-							return End * (7.5625 * NowTime^2) + Start;
-						elseif (NowTime < (2/2.75)) then
-							NowTime -= 1.5/2.75;
-							return End * (7.5625 * NowTime^2 + 0.75) + Start;
-						elseif (NowTime < (2.5/2.75)) then
-							NowTime -= 2.25/2.75;
-							return End * (7.5625 * NowTime^2 + 0.9375) + Start;
-						else
-							NowTime -= 2.625/2.75;
-							return End * (7.5625 * NowTime^2 + 0.984375) + Start;
-						end;
-					end;
-					return Lerp() * 0.5 + End * 0.5 + Start;
+					return BounceLerp(NowTime * 2 - Duration, 0, End, Duration) * 0.5 + End * 0.5 + Start;
 				end;
 			end;
 		};
