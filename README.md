@@ -33,13 +33,11 @@ Tween.Create(game.Workspace.Part, "Position", "Quad", "Out", Vector3.new(1, 1, 1
 ### Extra Properties (**NOT RECOMMENTED**)
 **If given a empty table will enable default argument's setting**
 
-Includes 3 arguments, they are "A", "P", "S", all are number
+Includes 2 arguments, they are "ElasticSpeed" and "BackDistance", all are number
 
-"A" and "P" is for style "Elastic", "S" is for style "Back"
+Smaller "ElasticSpeed" will let effect more quickly
 
-Higher "A" and "P", elastic tween effect will more quickly (looks like?)
-
-Higher "S", back tween effect will more stronger
+Higher "BackDistance" will let effect more farther
 # End
 Thank you for using algorithms, we are trying to let this algorithm's experience get more better!
 
