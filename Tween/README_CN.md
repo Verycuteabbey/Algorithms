@@ -1,4 +1,4 @@
-[English](https://github.com/Verycuteabbey/Algorithms/Tween/blob/main/README.md)
+[English](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/README.md)
 
 ## 警告
 **该算法还处于测试阶段，不能保证在使用过程中没有任何问题**
@@ -22,7 +22,7 @@ End —————— 可以为 "CFrame", "number", "UDim", "UDim2", "Vector2",
 
 Duration —————— Tween 运行时间
 
-ExtraProperties —————— 只适用于 "Elastic" 与 "Back"，详细看 [Extra Properties](https://github.com/Verycuteabbey/Algorithms/Tween/blob/main/README_CN.md#extra-properties-不推荐)
+ExtraProperties —————— 只适用于 "Elastic" 与 "Back"，详细看 [Extra Properties](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/README_CN.md#extra-properties-不推荐)
 
 示例: Part 的坐标 (0, 0, 0) 到 (1, 1, 1)
 ```lua
