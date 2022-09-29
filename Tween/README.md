@@ -1,4 +1,4 @@
-[简体中文](https://github.com/Verycuteabbey/Algorithms/Tween/blob/main/README_CN.md)
+[简体中文](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/README_CN.md)
 
 ## Warning
 **This algorithm still in beta, there is no guarantee that there will be no problems during use**
@@ -22,7 +22,7 @@ End —————— Is can be "CFrame", "number", "UDim", "UDim2", "Vector2",
 
 Duration —————— Tween running time
 
-ExtraProperties —————— Only for ease style "Elastic" and "Back", see [Extra Properties](https://github.com/Verycuteabbey/Algorithms/Tween/blob/main/README.md#extra-properties-not-recommented)
+ExtraProperties —————— Only for ease style "Elastic" and "Back", see [Extra Properties](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/README.md#extra-properties-not-recommented)
 
 Example: Part's position (0, 0, 0) to (1, 1, 1)
 ```lua
