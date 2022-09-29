@@ -35,7 +35,7 @@ Tween.Create(game.Workspace.Part, "Position", "Quad", "Out", Vector3.new(1, 1, 1
 
 包含 3 个参数, 分别为 "A", "P", "S", 所有都为数字
 
-"A" and "P" 给 "Elastic" 使用的, "S" 给 "Back" 使用的
+"A" 与 "P" 给 "Elastic" 使用的, "S" 给 "Back" 使用的
 
 "A" 与 "P" 越高, elastic tween 效果将会更加快 (看起来是的？)
 
