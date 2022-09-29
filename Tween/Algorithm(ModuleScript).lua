@@ -36,8 +36,8 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 				return -End * NowTime * (NowTime - 2) + Start;
 			end;
 			["InOut"] = function()
-				NowTime = NowTime/Duration;
-				if ((NowTime/2) < 1) then
+				NowTime = NowTime/Duration/2;
+				if (NowTime < 1) then
 					return End/2 * NowTime^2 + Start;
 				end;
 				return -End/2 * ((NowTime - 1) * (NowTime - 2) - 1) + Start;
@@ -54,8 +54,8 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 				return End * (NowTime^3 + 1) + Start;
 			end;
 			["InOut"] = function()
-				NowTime = NowTime/Duration;
-				if ((NowTime/2) < 1) then
+				NowTime = NowTime/Duration/2;
+				if (NowTime < 1) then
 					return End/2 * NowTime^3 + Start;
 				end;
 				NowTime -= 2;
@@ -73,8 +73,8 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 				return -End * (NowTime^4 - 1) + Start;
 			end;
 			["InOut"] = function()
-				NowTime = NowTime/Duration;
-				if ((Duration/2) < 1) then
+				NowTime = NowTime/Duration/2;
+				if (Duration < 1) then
 					return End/2 * NowTime^4 + Start;
 				end;
 				NowTime -= 2;
@@ -92,8 +92,8 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 				return End * (NowTime^5 + 1) + Start;
 			end;
 			["InOut"] = function()
-				NowTime = NowTime/Duration;
-				if ((NowTime/2) < 1) then
+				NowTime = NowTime/Duration/2;
+				if (NowTime < 1) then
 					return End/2 * NowTime^5 + Start;
 				end;
 				NowTime -= 2;
@@ -128,8 +128,8 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 				elseif (NowTime == Duration) then
 					return Start + End;
 				end;
-				NowTime = NowTime/Duration;
-				if ((NowTime/2) < 1) then
+				NowTime = NowTime/Duration/2;
+				if (NowTime < 1) then
 					return End/2 * math.pow(2, 10 * (NowTime - 1)) + Start;
 				end;
 				return End/2 * (-math.pow(2, -10 * NowTime - 1) + 2) + Start;
@@ -146,8 +146,8 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 				return End * math.sqrt(1 - NowTime^2) + Start;
 			end;
 			["InOut"] = function()
-				NowTime = NowTime/Duration;
-				if ((NowTime/2) < 1) then
+				NowTime = NowTime/Duration/2;
+				if (NowTime < 1) then
 					return -End/2 * (math.sqrt(1 - NowTime^2) - 1) + Start;
 				end;
 			end;
@@ -169,6 +169,9 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 				if (not ExtraProperties.A) then
 					S = ExtraProperties.P/4;
 					ExtraProperties.A = End;
+				elseif (ExtraProperties.A < math.abs(End)) then
+					ExtraProperties.A = End;
+					S = ExtraProperties.P/(2 * math.pi) * math.asin(End/ExtraProperties.A);
 				else
 					S = ExtraProperties.P/(2 * math.pi) * math.asin(End/ExtraProperties.A);
 				end;
@@ -190,6 +193,9 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 				if (not ExtraProperties.A) then
 					S = ExtraProperties.P/4;
 					ExtraProperties.A = End;
+				elseif (ExtraProperties.A < math.abs(End)) then
+					ExtraProperties.A = End;
+					S = ExtraProperties.P/(2 * math.pi) * math.asin(End/ExtraProperties.A);
 				else
 					S = ExtraProperties.P/(2 * math.pi) * math.asin(End/ExtraProperties.A);
 				end;
@@ -210,6 +216,9 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 				if (not ExtraProperties.A) then
 					S = ExtraProperties.P/4;
 					ExtraProperties.A = End;
+				elseif (ExtraProperties.A < math.abs(End)) then
+					ExtraProperties.A = End;
+					S = ExtraProperties.P/(2 * math.pi) * math.asin(End/ExtraProperties.A);
 				else
 					S = ExtraProperties.P/(2 * math.pi) * math.asin(End/ExtraProperties.A);
 				end;
