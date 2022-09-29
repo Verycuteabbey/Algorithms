@@ -33,11 +33,15 @@ Tween.Create(game.Workspace.Part, "Position", "Quad", "Out", Vector3.new(1, 1, 1
 ### Extra Properties (不推荐)
 **若提交空表将会应用默认参数值**
 
-包含 2 个参数, 分别为 "ElasticSpeed" 和 "BackDistance", 所有都为数字
+包含 3 个参数, 分别为 "A", "P", "S", 所有都为数字
 
-"ElasticSpeed" 越低, 效果将会更加快
+"A" 与 "P" 为 "Elastic" 的参数，"S" 为 "Back" 的参数
 
-"BackDistance" 越高, 效果距离将会更远
+"A" 必须大于或等于 "End" 参数，越高的值效果距离将会更远
+
+"P" 越低, "Elastic" 效果将会更加快
+
+"S" 越高, "Back" 效果距离将会更远
 # End
 感谢你使用该算法, 我们正在尝试让算法的体验变得更好!
 
