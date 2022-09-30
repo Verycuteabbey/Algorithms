@@ -99,7 +99,7 @@ function Tween.Create(Instance:Instance, Property:string, EaseStyle:string, Ease
 		--———————————— Main ————————————--
 		local NowTime = 0;
 		local LoopedTime = 0;
-		local Precision = 0.0166;
+		local Precision = task.wait();
 		local PrecisionTime = math.ceil((1/Precision) * Duration);
 		local Transforms = {
 			["CFrame"] = function(X:number, Y:number, Z:number)
