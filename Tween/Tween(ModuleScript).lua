@@ -7,32 +7,50 @@ local Tween = {};
 --———————————— Coroutine ————————————--
 local CollectedThreads = {};
 local RunningThreads = {};
-local Thread = {};
+local Threads = {};
 
-function Thread.Create(Function, TweenInstance:Instance, TweenProperty:string)
+function Threads.Create(Function, Instance:Instance, Property:string)
 	local self = {};
 	self.CurrentThread = coroutine.create(Function);
 	self.SuspendedTime = 0;
-	self.TweenInstance = TweenInstance;
-	self.TweenProperty = TweenProperty;
+	self.TweenInstance = Instance;
+	self.TweenProperty = Property;
+	--———————————— Local Functions ————————————--
+	local function ResetTime()
+		if (self.SuspendedTime < 5) then
+			self.SuspendedTime = 0;
+		end;
+	end
 	--———————————— Object Functions ————————————--
-	function self.Start()
-		coroutine.resume(self.CurrentThread);
+	function self.Collect()
+		for Number, RunningThread in pairs(RunningThreads) do
+			if ((RunningThread == self) and (self.SuspendedTime >= 5)) then
+				table.insert(CollectedThreads, self);
+				table.remove(RunningThreads, Number);
+			end;
+		end;
 	end;
-	function self.UpdateThread(NewFunction)
+	function self.StartThread()
+		local IsSucessed, ReturnInfo = coroutine.resume(self.CurrentThread);
+		if (not IsSucessed) then
+			warn(string.format("Thread at resume got some problems:\n	- %s", ReturnInfo));
+		end;
+	end;
+	function self.UpdateStatus(NewFunction)
 		coroutine.close(self.CurrentThread);
 		self.CurrentThread = coroutine.create(NewFunction);
-		self.SuspendedTime = 0;
-		coroutine.resume(self.CurrentThread);
+		self.StartThread();
+		ResetTime();
 	end;
+	--———————————— Enable ————————————--
 	table.insert(RunningThreads, self);
 	return self;
 end;
 
-function Thread.Find(TweenInstance:Instance, TweenProperty:string)
+function Threads.Find(Instance:Instance, Property:string)
 	local CurrentThread;
 	for _, RunningThread in pairs(RunningThreads) do
-		if ((RunningThread.TweenInstance == TweenInstance) and (RunningThread.TweenProperty == TweenProperty)) then
+		if ((RunningThread.TweenInstance == Instance) and (RunningThread.TweenProperty == Property)) then
 			CurrentThread = RunningThread;
 		end;
 	end;
@@ -42,19 +60,12 @@ end;
 task.spawn(function()
 	local LoopedTime = 0;
 	while (task.wait(1)) do
-		for Number, RunningThread in pairs(RunningThreads) do
-			if (coroutine.status(RunningThread.CurrentThread) == "died") then
-				table.insert(CollectedThreads, RunningThread);
-				table.remove(RunningThreads, Number);
-			elseif (RunningThread.SuspendedTime > 10) then
-				table.insert(CollectedThreads, RunningThread);
-				table.remove(RunningThreads, Number);
-			else
-				RunningThread.SuspendedTime += 1;
-			end;
+		for _, RunningThread in pairs(RunningThreads) do
+			RunningThread.SuspendedTime += 1;
+			RunningThread.Collect();
 		end;
 		LoopedTime += 1;
-		if (LoopedTime > 60) then
+		if (LoopedTime >= 30) then
 			LoopedTime = 0;
 			for Number, _ in pairs(CollectedThreads) do
 				table.remove(CollectedThreads, Number);
@@ -88,8 +99,8 @@ function Tween.Create(Instance:Instance, Property:string, EaseStyle:string, Ease
 		--———————————— Main ————————————--
 		local NowTime = 0;
 		local LoopedTime = 0;
-		local Precicion = 0.0125;
-		local PrecicionTime = (1/Precicion) * Duration;
+		local Precision = 0.0166;
+		local PrecisionTime = math.ceil((1/Precision) * Duration);
 		local Transforms = {
 			["CFrame"] = function(X:number, Y:number, Z:number)
 				return CFrame.new(X, Y, Z);
@@ -111,7 +122,7 @@ function Tween.Create(Instance:Instance, Property:string, EaseStyle:string, Ease
 			end;
 		};
 		while (true) do
-			if (LoopedTime > PrecicionTime) then
+			if (LoopedTime > PrecisionTime) then
 				break;
 			end;
 			--———————————— Lerp ————————————--
@@ -144,17 +155,17 @@ function Tween.Create(Instance:Instance, Property:string, EaseStyle:string, Ease
 			--———————————— Enable ————————————--
 			Instance[Property] = Transforms[TransformType](Lerp0, Lerp1, Lerp2, Lerp3);
 			LoopedTime += 1;
-			NowTime += Precicion;
-			task.wait(Duration/PrecicionTime);
+			NowTime += Precision;
+			task.wait(Duration/PrecisionTime);
 		end;
 	end;
 	--———————————— Thread ————————————--
-	local Result = Thread.Find(Instance, Property);
+	local Result = Threads.Find(Instance, Property);
 	if (Result) then
-		Result.UpdateThread(Main);
+		Result.UpdateStatus(Main);
 	else
-		local NewThread = Thread.Create(Main, Instance, Property);
-		NewThread.Start();
+		local NewThread = Threads.Create(Main, Instance, Property);
+		NewThread.StartThread();
 	end;
 end;
 
