@@ -2,9 +2,7 @@
 ## 警告
 **该算法还处于测试阶段，不能保证在使用过程中没有任何问题**
 ### 这是什么？
-这是一个适用于 Roblox 的 Tween 逻辑算法, 你可以 require() 这个并且取代 TweenService (**不能是全部**)
-
-算法并没有完善, 并且难用于 TweenService (**难在源码重编译**)
+这是一个适用于 Roblox 的 Tween 逻辑算法, 你可以 require() Tween 来取代 TweenService (**不能完全取代，在效率方面 Roblox API 要好一些**)
 ### 使用
 `Tween.Create()` 需要 5 个参数:
 
@@ -27,9 +25,7 @@ Duration —————— Tween 运行时间
 ```lua
 Tween.Create(game.Workspace.Part, "Position", {Style = "Quart", Direction = "Out", {}}, Vector3.new(1, 1, 1), 1);
 ```
-### Extra Properties (不推荐)
-**若提交空表将会应用默认参数值**
-
+### Extra Properties
 包含 3 个参数, 分别为 "A", "P", "S", 所有都为数字
 
 "A" 与 "P" 为 "Elastic" 效果的参数，"S" 为 "Back" 效果的参数
