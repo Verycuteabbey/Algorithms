@@ -7,21 +7,21 @@ local Algorithm = {};
 local function BounceLerp(NowTime:number, Start:number, End:number, Duration:number)
 	NowTime = NowTime/Duration;
 	if (NowTime < (1/2.75)) then
-		return End * (7.5625 * NowTime^2) + Start;
+		return End * (7.5625 * NowTime * NowTime) + Start;
 	elseif (NowTime < (2/2.75)) then
 		NowTime -= 1.5/2.75;
-		return End * (7.5625 * NowTime^2 + 0.75) + Start;
+		return End * (7.5625 * NowTime * NowTime + 0.75) + Start;
 	elseif (NowTime < (2.5/2.75)) then
 		NowTime -= 2.25/2.75;
-		return End * (7.5625 * NowTime^2 + 0.9375) + Start;
+		return End * (7.5625 * NowTime * NowTime + 0.9375) + Start;
 	else
 		NowTime -= 2.625/2.75;
-		return End * (7.5625 * NowTime^2 + 0.984375) + Start;
+		return End * (7.5625 * NowTime * NowTime + 0.984375) + Start;
 	end;
 end;
 
 --———————————— Module Functions ————————————--
-function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:number, Start:number, End:number, Duration:number, ExtraProperties)
+function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, ExtraProperties, NowTime:number, Start:number, End:number, Duration:number)
 	local Library = {
 		--———————————— Linear ————————————--
 		["Linear"] = End * (NowTime/Duration) + Start;
@@ -29,7 +29,7 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 		["Quad"] = {
 			["In"] = function()
 				NowTime = NowTime/Duration;
-				return End * NowTime^2 + Start;
+				return End * NowTime * NowTime + Start;
 			end;
 			["Out"] = function()
 				NowTime = NowTime/Duration;
@@ -38,7 +38,7 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 			["InOut"] = function()
 				NowTime = NowTime/Duration/2;
 				if (NowTime < 1) then
-					return End/2 * NowTime^2 + Start;
+					return End/2 * NowTime * NowTime + Start;
 				end;
 				return -End/2 * ((NowTime - 1) * (NowTime - 2) - 1) + Start;
 			end;
@@ -47,57 +47,57 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 		["Cubic"] = {
 			["In"] = function()
 				NowTime = NowTime/Duration;
-				return End * NowTime^3 + Start;
+				return End * NowTime * NowTime * NowTime + Start;
 			end;
 			["Out"] = function()
 				NowTime = NowTime/Duration - 1;
-				return End * (NowTime^3 + 1) + Start;
+				return End * (NowTime * NowTime * NowTime + 1) + Start;
 			end;
 			["InOut"] = function()
 				NowTime = NowTime/Duration/2;
 				if (NowTime < 1) then
-					return End/2 * NowTime^3 + Start;
+					return End/2 * NowTime * NowTime * NowTime + Start;
 				end;
 				NowTime -= 2;
-				return End/2 * (NowTime^3 + 2) + Start;
+				return End/2 * (NowTime * NowTime * NowTime + 2) + Start;
 			end;
 		};
 		--———————————— Quart ————————————--
 		["Quart"] = {
 			["In"] = function()
 				NowTime = NowTime/Duration;
-				return End * NowTime^4 + Start;
+				return End * NowTime * NowTime * NowTime * NowTime + Start;
 			end;
 			["Out"] = function()
 				NowTime = NowTime/Duration - 1;
-				return -End * (NowTime^4 - 1) + Start;
+				return -End * (NowTime * NowTime * NowTime * NowTime - 1) + Start;
 			end;
 			["InOut"] = function()
 				NowTime = NowTime/Duration/2;
 				if (Duration < 1) then
-					return End/2 * NowTime^4 + Start;
+					return End/2 * NowTime * NowTime * NowTime * NowTime + Start;
 				end;
 				NowTime -= 2;
-				return -End/2 * (NowTime^4 - 2) + Start;
+				return -End/2 * (NowTime * NowTime * NowTime * NowTime - 2) + Start;
 			end;
 		};
 		--———————————— Quint ————————————--
 		["Quint"] = {
 			["In"] = function()
 				NowTime = NowTime/Duration;
-				return End * NowTime^5 + Start;
+				return End * NowTime * NowTime * NowTime * NowTime * NowTime + Start;
 			end;
 			["Out"] = function()
 				NowTime = NowTime/Duration - 1;
-				return End * (NowTime^5 + 1) + Start;
+				return End * (NowTime * NowTime * NowTime * NowTime * NowTime + 1) + Start;
 			end;
 			["InOut"] = function()
 				NowTime = NowTime/Duration/2;
 				if (NowTime < 1) then
-					return End/2 * NowTime^5 + Start;
+					return End/2 * NowTime * NowTime * NowTime * NowTime * NowTime + Start;
 				end;
 				NowTime -= 2;
-				return End/2 * (NowTime^5 + 2) + Start;
+				return End/2 * (NowTime * NowTime * NowTime * NowTime * NowTime + 2) + Start;
 			end;
 		};
 		--———————————— Sine ————————————--
@@ -139,16 +139,16 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 		["Circ"] = {
 			["In"] = function()
 				NowTime = NowTime/Duration;
-				return -End * (math.sqrt(1 - NowTime^2) - 1) + Start;
+				return -End * (math.sqrt(1 - NowTime * NowTime) - 1) + Start;
 			end;
 			["Out"] = function()
 				NowTime = NowTime/Duration - 1;
-				return End * math.sqrt(1 - NowTime^2) + Start;
+				return End * math.sqrt(1 - NowTime * NowTime) + Start;
 			end;
 			["InOut"] = function()
 				NowTime = NowTime/Duration/2;
 				if (NowTime < 1) then
-					return -End/2 * (math.sqrt(1 - NowTime^2) - 1) + Start;
+					return -End/2 * (math.sqrt(1 - NowTime * NowTime) - 1) + Start;
 				end;
 			end;
 		};
@@ -237,14 +237,14 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 					ExtraProperties.S = 1.70158;
 				end;
 				NowTime = NowTime/Duration;
-				return End * NowTime^2 * ((ExtraProperties.S + 1) * NowTime - ExtraProperties.S) + Start;
+				return End * NowTime * NowTime * ((ExtraProperties.S + 1) * NowTime - ExtraProperties.S) + Start;
 			end;
 			["Out"] = function()
 				if (not ExtraProperties.S) then
 					ExtraProperties.S = 1.70158;
 				end;
 				NowTime = NowTime/Duration - 1;
-				return End * (NowTime^2 * ((ExtraProperties.S + 1) * NowTime + ExtraProperties.S) + 1) + Start;
+				return End * (NowTime * NowTime * ((ExtraProperties.S + 1) * NowTime + ExtraProperties.S) + 1) + Start;
 			end;
 			["InOut"] = function()
 				if (not ExtraProperties.S) then
@@ -253,11 +253,11 @@ function Algorithm.GetLerp(EaseStyle:string, EaseDirection:string, NowTime:numbe
 				NowTime = NowTime/Duration/2;
 				if (NowTime < 1) then
 					ExtraProperties.S = ExtraProperties.S * 1.525;
-					return End/2 * (NowTime^2 * ((ExtraProperties.S + 1) * NowTime - ExtraProperties.S)) + Start;
+					return End/2 * (NowTime * NowTime * ((ExtraProperties.S + 1) * NowTime - ExtraProperties.S)) + Start;
 				end;
 				NowTime -= 2;
 				ExtraProperties.S = ExtraProperties.S * 1.525;
-				return End/2 * (NowTime^2 * ((ExtraProperties.S + 1) * NowTime + ExtraProperties.S) + 2) + Start;
+				return End/2 * (NowTime * NowTime * ((ExtraProperties.S + 1) * NowTime + ExtraProperties.S) + 2) + Start;
 			end;
 		};
 		--———————————— Bounce ————————————--
