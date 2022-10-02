@@ -87,7 +87,7 @@ end);
 
 --———————————— Local Functions ————————————--
 local function Analysis(Type:string, Argument)
-	if (Type == "EaseStyle") then
+	if (Type == "EaseType") then
 		if (not Argument.Style) then
 			Argument.Style = "Linear";
 		end;
@@ -135,9 +135,9 @@ local function Analysis(Type:string, Argument)
 end;
 
 --———————————— Module Functions ————————————--
-function Tween.Create(Instance:Instance, Property:string, EaseStyle, Target, Duration:number)
+function Tween.Create(Instance:Instance, Property:string, EaseType, Target, Duration:number)
 	local function Main()
-		local Style, Direction, ExtraProperties = Analysis("EaseStyle", EaseStyle);
+		local Style, Direction, ExtraProperties = Analysis("EaseType", EaseType);
 		local _, PropertyTransforms = Analysis("Target", Instance[Property]);
 		local TargetType, TargetTransforms = Analysis("Target", Target);
 		--———————————— Main ————————————--
