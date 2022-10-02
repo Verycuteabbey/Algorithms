@@ -8,7 +8,7 @@ Algorithm is not finished yet, and also use harder of TweenService (**Hard at so
 ### Use
 `Tween.Create()` is require 5 arguments:
 
-Instance:Instance | Property:string | EaseType:table | Target | Duration
+Instance:Instance | Property:string | EaseType:table | Target:CFrame|number|UDim|UDim2|Vector2|Vector3 | Duration:number
 
 Instance —————— Is can be any instances
 
