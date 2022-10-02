@@ -6,27 +6,26 @@
 
 算法并没有完善, 并且难用于 TweenService (**难在源码重编译**)
 ### 使用
-`Tween.Create()` 需要 7 个参数:
+`Tween.Create()` 需要 5 个参数:
 
-Instance | Property | EaseType | EaseDirection | End | Duration | ExtraProperties
+Instance:Instance | Property:string | EaseType:table | Target:CFrame|number|UDim|UDim2|Vector2|Vector3 | Duration:number
 
 Instance —————— 可以是任何 instances, 类型指定是 Instance
 
 Property —————— 要求是 "Instance" 的任何一个属性
 
-EaseType —————— 你可以应用这里的其中一个: "Linear", "Quad", "Cubic", "Quart", "Quint", "Sine", "Expo", "Circ", "Elastic", "Back", "Bounce"
+EaseType —————— 这是一个表, 必须要包含这 3 个参数: "Style", "Direction", "ExtraProperties"
+  - Style 可以是 "Linear", "Quad", "Cubic", "Quart", "Quint", "Sine", "Expo", "Circ", "Elastic", "Back", "Bounce"
+  - Direction 可以是 "In", "Out", "InOut"
+  - ExtraProperties 可以是空表，详细看 [Extra Properties]()
 
-EaseDirection —————— 你可以应用这里的其中一个: "In", "Out", "InOut"
-
-End —————— 可以为 "CFrame", "number", "UDim", "UDim2", "Vector2", "Vector3", 决定于 Property
+Target —————— 可以为 "CFrame", "number", "UDim", "UDim2", "Vector2", "Vector3", 决定于 Property
 
 Duration —————— Tween 运行时间
 
-ExtraProperties —————— 只适用于 "Elastic" 与 "Back"，详细看 [Extra Properties](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/README_CN.md#extra-properties-不推荐)
-
-示例: Part 的坐标 (0, 0, 0) 到 (1, 1, 1)
+示例: Part 的坐标用 Quart Out 效果在 1 秒内从 (0, 0, 0) 到 (1, 1, 1)
 ```lua
-Tween.Create(game.Workspace.Part, "Position", "Quad", "Out", Vector3.new(1, 1, 1), 1, {});
+Tween.Create(game.Workspace.Part, "Position", {Style = "Quart", Direction = "Out", {}}, Vector3.new(1, 1, 1), 1);
 ```
 ### Extra Properties (不推荐)
 **若提交空表将会应用默认参数值**
