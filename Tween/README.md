@@ -6,7 +6,7 @@ This is a Tween Logic Algorithm for Roblox, you can require() Tween to instead T
 ### Use
 `Tween.Create()` is require 5 arguments:
 
-Instance:Instance | Property:string | EaseType:table | Target:CFrame|number|UDim|UDim2|Vector2|Vector3 | Duration:number
+Instance:Instance | Property:string | EaseType:table | Target:DataTypes | Duration:number
 
 Instance —————— Is can be any instances
 
