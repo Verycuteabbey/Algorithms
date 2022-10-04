@@ -105,6 +105,12 @@ local function Analysis(Type:string, Argument)
 				[2] = Argument.Y;
 				[3] = Argument.Z;
 			};
+		elseif (typeof(Argument) == "Color3") then
+			return "Color3", {
+				[1] = Argument.R;
+				[2] = Argument.G;
+				[3] = Argument.B;
+			};
 		elseif (typeof(Argument) == "UDim") then
 			return "UDim", {
 				[1] = Argument.Scale;
@@ -143,7 +149,7 @@ function Tween.Create(Instance:Instance, Property:string, EaseType, Target, Dura
 		--———————————— Main ————————————--
 		local NowTime = 0;
 		local LoopedTime = 0;
-		local Precision = math.clamp(task.wait(), 1/60, 6666);
+		local Precision = task.wait();
 		local PrecisionTime = math.ceil((1/Precision) * Duration);
 		while (true) do
 			if (LoopedTime > PrecisionTime) then
@@ -171,6 +177,8 @@ function Tween.Create(Instance:Instance, Property:string, EaseType, Target, Dura
 			--———————————— Enable ————————————--
 			if (TargetType == "CFrame") then
 				Instance[Property] = CFrame.new(Lerps[1], Lerps[2], Lerps[3]);
+			elseif (TargetType == "Color3") then
+				Instance[Property] = Color3.new(Lerps[1], Lerps[2], Lerps[3]);
 			elseif (TargetType == "UDim") then
 				Instance[Property] = UDim.new(Lerps[1], Lerps[2]);
 			elseif (TargetType == "UDim2") then
