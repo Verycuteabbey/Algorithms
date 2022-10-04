@@ -6,7 +6,7 @@
 ### 使用
 `Tween.Create()` 需要 5 个参数:
 
-Instance:Instance | Property:string | EaseType:table | Target:CFrame|number|UDim|UDim2|Vector2|Vector3 | Duration:number
+Instance:Instance | Property:string | EaseType:table | Target:DataTypes | Duration:number
 
 Instance —————— 可以是任何 instances, 类型指定是 Instance
 
@@ -17,7 +17,7 @@ EaseType —————— 这是一个表, 必须要包含这 3 个参数: "St
   - Direction 可以是 "In", "Out", "InOut"
   - ExtraProperties 可以是空表，详细看 [Extra Properties](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/README_CN.md#extra-properties-%E4%B8%8D%E6%8E%A8%E8%8D%90)
 
-Target —————— 可以为 "CFrame", "number", "UDim", "UDim2", "Vector2", "Vector3", 决定于 Property
+Target —————— 可以为 "CFrame", "Color3", "number", "UDim", "UDim2", "Vector2", "Vector3", 决定于 Property
 
 Duration —————— Tween 运行时间
 
