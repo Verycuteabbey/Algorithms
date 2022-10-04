@@ -17,7 +17,7 @@ EaseType —————— This is a table, must include 3 arguments: "Style", 
   - Direction can be "In", "Out", "InOut"
   - ExtraProperties can be empty table, see [Extra Properties](https://github.com/Verycuteabbey/Algorithms/tree/main/Tween#extra-properties)
 
-Target —————— Is can be "CFrame", "number", "UDim", "UDim2", "Vector2", "Vector3", depend on your tween property
+Target —————— Is can be "CFrame", "Color3", "number", "UDim", "UDim2", "Vector2", "Vector3", depend on your tween property
 
 Duration —————— Tween running time
 
