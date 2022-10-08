@@ -23,7 +23,7 @@
 
 示例: Part 的坐标用 Quart Out 效果在 1 秒内从 (0, 0, 0) 到 (1, 1, 1)
 ```lua
-Tween.Create(game.Workspace.Part, `Position`, {Style = `Quart`, Direction = `Out`, ExtraProperties = {}}, Vector3.new(1, 1, 1), 1);
+Tween.Create(game.Workspace.Part, "Position", {Style = "Quart", Direction = "Out", ExtraProperties = {}}, Vector3.new(1, 1, 1), 1);
 ```
 ### Extra Properties
 包含 3 个参数, 分别为 `A`, `P`, `S`, 所有都为数字
