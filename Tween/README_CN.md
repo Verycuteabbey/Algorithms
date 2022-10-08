@@ -30,7 +30,7 @@ Tween.Create(game.Workspace.Part, "Position", {Style = "Quart", Direction = "Out
 
 `A` 与 `P` 为 `Elastic` 效果的参数，`S` 为 `Back` 效果的参数
 
-`A` 必须大于或等于 `End` 参数，越高的值效果距离将会更远
+`A` 必须大于或等于 `Target` 参数，越高的值效果距离将会更远
 
 `P` 越低, `Elastic` 效果将会更加快
 
