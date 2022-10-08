@@ -30,7 +30,7 @@ Includes 3 arguments, they are `A`, `P`, `S`, all are number
 
 `A` and `P` for style `Elastic`, `S` for style `Back`
 
-`A` must be higher than `End` argument or equals it, higher will let `Elastic` effect distance more farther
+`A` must be higher than `Target` argument or equals it, higher will let `Elastic` effect distance more farther
 
 Smaller `P` will let `Elastic` effect more quickly
 
