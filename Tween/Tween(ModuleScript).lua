@@ -27,7 +27,9 @@ local function Collector()
 		if (LoopedTime >= 60) then
 			LoopedTime = 0;
 			for _, Index in pairs(Threads.Collected) do
-				Index("Destroy");
+				if (typeof(Index) == "table") then
+					Index("Destroy");
+				end;
 			end;
 			table.clear(Threads.Collected);
 		end;
