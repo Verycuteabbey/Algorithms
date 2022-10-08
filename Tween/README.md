@@ -23,7 +23,7 @@ This is a Tween Logic Algorithm for Roblox, you can require() Tween to instead T
 
 Example: Part's position (0, 0, 0) to (1, 1, 1) by using Quart Out in 1s
 ```lua
-Tween.Create(game.Workspace.Part, `Position`, {Style = `Quart`, Direction = `Out`, ExtraProperties = {}}, Vector3.new(1, 1, 1), 1);
+Tween.Create(game.Workspace.Part, "Position", {Style = "Quart", Direction = "Out", ExtraProperties = {}}, Vector3.new(1, 1, 1), 1);
 ```
 ### Extra Properties
 Includes 3 arguments, they are `A`, `P`, `S`, all are number
