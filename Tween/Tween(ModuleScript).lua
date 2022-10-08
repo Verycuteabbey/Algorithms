@@ -1,89 +1,98 @@
---> Script Compiled By Fallen_VCA#6890
+--> Module Compiled By Fallen_VCA#6890
 
 --———————————— Local Variable - Others ————————————--
 local Algorithm = require();
 local Tween = {};
 
---———————————— Coroutine ————————————--
+--———————————— Thread ————————————--
 local Threads = {};
 Threads.Collected = {};
-Threads.Idle = {};
 Threads.Running = {};
 
-function Threads.Create(Function, Instance:Instance, Property:string)
-	local Thread = {};
-	local self = {};
-	--———————————— Metatable ————————————--
-	self.__call = function(self, Argument:string, ...)
-		if (Argument == "Clear") then
-			table.clear(self);
-			table.clear(Thread);
-		elseif (Argument == "Run") then
-			table.insert(Threads.Running, Thread);
-			for Number, Object in pairs(Threads.Idle) do
-				if (Object == Thread) then
-					table.remove(Threads.Idle, Number);
-				end;
-			end;
-			local IsSucessed, ReturnInfo = coroutine.resume(Thread.CurrentThread);
-			if (not IsSucessed) then
-				local String = "Coroutine has got a problem form Thread %s\n	- &s\n";
-				warn(String:format(tostring(Thread.CurrentThread), ReturnInfo));
-			end;
-		elseif (Argument == "Update") then
-			coroutine.close(Thread.CurrentThread);
-			Thread.CurrentThread = coroutine.create(...);
-			local IsSucessed, ReturnInfo = coroutine.resume(Thread.CurrentThread);
-			if (not IsSucessed) then
-				local String = "Coroutine has got a problem form Thread %s\n	- &s\n";
-				warn(String:format(tostring(Thread.CurrentThread), ReturnInfo));
-			end;
-			Thread.SuspendedTime = 0;
-		end;
-	end;
-	--———————————— Objects ————————————--
-	Thread.CurrentThread = coroutine.create(Function);
-	Thread.SuspendedTime = 0;
-	Thread.TweenInstance = Instance;
-	Thread.TweenProperty = Property;
-	--———————————— Enable ————————————--
-	setmetatable(Thread, self);
-	table.insert(Threads.Idle, Thread);
-	return Thread;
-end;
-
-function Threads.Find(Instance:Instance, Property:string)
-	local CurrentThread;
-	for _, Object in pairs(Threads.Running) do
-		if ((Object.TweenInstance == Instance) and (Object.TweenProperty == Property)) then
-			CurrentThread = Object;
-		end;
-	end;
-	return CurrentThread;
-end;
-
-task.spawn(function()
+local function Collector()
 	local LoopedTime = 0;
 	while (task.wait(1)) do
-		--———————————— Suspended Time ————————————--
-		for Number, Object in pairs(Threads.Running) do
-			Object.SuspendedTime += 1;
-			if (Object.SuspendedTime >= 5) then
-				table.insert(Threads.Collected, Object);
-				table.remove(Threads.Running, Number);
+		--———————————— Time ————————————--
+		LoopedTime += 1;
+		for Number, Index in pairs(Threads.Running) do
+			if (typeof(Index) == "table") then
+				Index.SuspendedTime += 1;
+				if (Index.SuspendedTime >= 10) then
+					table.insert(Threads.Collected, Index);
+					table.remove(Threads.Running, Number);
+				end;
 			end;
 		end;
-		LoopedTime += 1;
-		--———————————— Recycle ————————————--
+		--———————————— Clear ————————————--
 		if (LoopedTime >= 60) then
 			LoopedTime = 0;
-			for _, Object in pairs(Threads.Collected) do
-				Object("Clear");
+			for _, Index in pairs(Threads.Collected) do
+				Index("Destroy");
 			end;
 			table.clear(Threads.Collected);
 		end;
 	end;
-end);
+end;
+
+function Threads.Create(Function, ...)
+	local Metatable = {};
+	local Thread = {};
+	--———————————— Properties ————————————--
+	local Instance, Property = table.unpack(...);
+	Thread.CurrentThread = task.spawn(Function);
+	Thread.Instance = Instance;
+	Thread.Property = Property;
+	Thread.SuspendedTime = 0;
+	--———————————— Metatable ————————————--
+	local function OnCall(self, Type:string, ...)
+		if (Type == "Destroy") then
+			setmetatable(Thread, {});
+			table.clear(Thread);
+		elseif (Type == "Update") then
+			task.cancel(Thread.CurrentThread);
+			Thread.CurrentThread = task.spawn(...);
+			Thread.SuspendedTime = 0;
+		end;
+	end;
+	Metatable.__call = OnCall;
+	--———————————— Enable ————————————--
+	setmetatable(Thread, Metatable);
+	table.insert(Threads.Running, Thread);
+	return Thread;
+end;
+
+function Threads.Collected:Resume(Function, Instance:Instance, Property:string)
+	local Thread;
+	for Number, Index in pairs(self) do
+		if (typeof(Index) == "table") then
+			if ((Index.Instance == Instance) and (Index.Property == Property)) then
+				Thread = Index;
+				table.insert(Threads.Running, Index);
+				table.remove(Threads.Collected, Number);
+			end;
+		end;
+	end;
+	if (Thread) then
+		Thread("Update", Function);
+		return true;
+	else
+		return false;
+	end;
+end;
+
+function Threads.Running:Find(Instance:Instance, Property:string)
+	local Thread;
+	for _, Index in pairs(self) do
+		if (typeof(Index) == "table") then
+			if ((Index.Instance == Instance) and (Index.Property == Property)) then
+				Thread = Index;
+			end;
+		end;
+	end;
+	return Thread;
+end;
+
+task.spawn(Collector);
 
 --———————————— Local Functions ————————————--
 local function Analysis(Type:string, Argument)
@@ -196,12 +205,17 @@ function Tween.Create(Instance:Instance, Property:string, EaseType, Target, Dura
 		end;
 	end;
 	--———————————— Thread ————————————--
-	local Result = Threads.Find(Instance, Property);
+	local Result = Threads.Running:Find(Instance, Property);
 	if (Result) then
 		Result("Update", Main);
 	else
-		local Thread = Threads.Create(Main, Instance, Property);
-		Thread("Run");
+		Result = Threads.Collected:Resume(Main, Instance, Property);
+		if (not Result) then
+			Threads.Create(Main, {
+				[1] = Instance;
+				[2] = Property;
+			});
+		end;
 	end;
 end;
 
