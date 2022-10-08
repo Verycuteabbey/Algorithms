@@ -14,12 +14,12 @@ This is a Tween Logic Algorithm for Roblox, you can require() Tween to instead T
 
 `EaseType` —————— This is a table, must include 3 arguments: `Style`, `Direction`, `ExtraProperties`
   - `Style` can be `Linear`, `Quad`, `Cubic`, `Quart`, `Quint`, `Sine`, `Expo`, `Circ`, `Elastic`, `Back`, `Bounce`
-  - Direction can be `In`, `Out`, `InOut`
-  - ExtraProperties can be empty table, see [Extra Properties](https://github.com/Verycuteabbey/Algorithms/tree/main/Tween#extra-properties)
+  - `Direction` can be `In`, `Out`, `InOut`
+  - `ExtraProperties` can be empty table, see [Extra Properties](https://github.com/Verycuteabbey/Algorithms/tree/main/Tween#extra-properties)
 
-Target —————— Is can be `CFrame`, `Color3`, `number`, `UDim`, `UDim2`, `Vector2`, `Vector3`, depend on your tween property
+`Target` —————— Is can be `CFrame`, `Color3`, `number`, `UDim`, `UDim2`, `Vector2`, `Vector3`, depend on your tween property
 
-Duration —————— Tween running time
+`Duration` —————— Tween running time
 
 Example: Part's position (0, 0, 0) to (1, 1, 1) by using Quart Out in 1s
 ```lua
