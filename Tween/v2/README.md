@@ -7,23 +7,23 @@ There are two modes let you choose, `easyTween()` and `customTween()`
 `easyTween()` is `customTween()`'s simplified version, not need too much arguments
 
 `easyTween()` need 6 arguments
-	- `targetInstance` | Target instance
-	- `targetProperty` | Target instance's property
-	- `easeStyle` | It's can be `Linear`, `Quad`, `Cubic`, `Quart`, `Quint`, `Sine`, `Expo`, `Circ`, `Elastic`, `Back`, `Bounce`
-	- `easeDirection` | It's can be `In`, `Out`, `InOut`
-	- `target` | Target property value
-	- `duration` | How many time spend at tween
+  - `targetInstance` | Target instance
+  - `targetProperty` | Target instance's property
+  - `easeStyle` | It's can be `Linear`, `Quad`, `Cubic`, `Quart`, `Quint`, `Sine`, `Expo`, `Circ`, `Elastic`, `Back`, `Bounce`
+  - `easeDirection` | It's can be `In`, `Out`, `InOut`
+  - `target` | Target property value
+  - `duration` | How many time spend at tween
 	
 `customTween()` need 7 arguments
-	- `targetInstance` | Target instance
-	- `targetProperty` | Target instance's property
-	- `easeType` | A table
-		- `easeStyle` | It's can be `Linear`, `Quad`, `Cubic`, `Quart`, `Quint`, `Sine`, `Expo`, `Circ`, `Elastic`, `Back`, `Bounce`
-		- `easeDirection` | It's can be `In`, `Out`, `InOut`
-		- `extraProperties` | A table for `Elastic` and `Back` style, see [Extra Properties](https://github.com/Verycuteabbey/Algorithms/tree/main/v1/Tween#extra-properties)
-	- `from` | Start property value
-	- `target` | Target property value
-	- `duration` | How many time spend at tween
+  - `targetInstance` | Target instance
+  - `targetProperty` | Target instance's property
+  - `easeType` | A table
+    - `easeStyle` | It's can be `Linear`, `Quad`, `Cubic`, `Quart`, `Quint`, `Sine`, `Expo`, `Circ`, `Elastic`, `Back`, `Bounce`
+    - `easeDirection` | It's can be `In`, `Out`, `InOut`
+    - `extraProperties` | A table for `Elastic` and `Back` style, see [Extra Properties](https://github.com/Verycuteabbey/Algorithms/tree/main/v1/Tween#extra-properties)
+  - `from` | Start property value
+  - `target` | Target property value
+  - `duration` | How many time spend at tween
 
 examples:
 ```lua
