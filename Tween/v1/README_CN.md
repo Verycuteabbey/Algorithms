@@ -15,7 +15,7 @@
 `EaseType` —————— 这是一个表, 必须要包含这 3 个参数: `Style`, `Direction`, `ExtraProperties`
   - `Style` 可以是 `Linear`, `Quad`, `Cubic`, `Quart`, `Quint`, `Sine`, `Expo`, `Circ`, `Elastic`, `Back`, `Bounce`
   - `Direction` 可以是 `In`, `Out`, `InOut`
-  - `ExtraProperties` 可以是空表，详细看 [Extra Properties](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/README_CN.md#extra-properties-%E4%B8%8D%E6%8E%A8%E8%8D%90)
+  - `ExtraProperties` 可以是空表，详细看 [Extra Properties](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/v1/README_CN.md#extra-properties-%E4%B8%8D%E6%8E%A8%E8%8D%90)
 
 `Target` —————— 可以为 `CFrame`, `Color3`, `number`, `UDim`, `UDim2`, `Vector2`, `Vector3`, 决定于 Property
 
