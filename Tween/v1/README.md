@@ -17,7 +17,7 @@ This is a Tween Logic Algorithm for Roblox, you can require() Tween to instead T
 `EaseType` —————— This is a table, must include 3 arguments: `Style`, `Direction`, `ExtraProperties`
   - `Style` can be `Linear`, `Quad`, `Cubic`, `Quart`, `Quint`, `Sine`, `Expo`, `Circ`, `Elastic`, `Back`, `Bounce`
   - `Direction` can be `In`, `Out`, `InOut`
-  - `ExtraProperties` can be empty table, see [Extra Properties](https://github.com/Verycuteabbey/Algorithms/tree/main/Tween#extra-properties)
+  - `ExtraProperties` can be empty table, see [Extra Properties](https://github.com/Verycuteabbey/Algorithms/tree/main/Tween/v1/#extra-properties)
 
 `Target` —————— Is can be `CFrame`, `Color3`, `number`, `UDim`, `UDim2`, `Vector2`, `Vector3`, depend on your tween property
 
