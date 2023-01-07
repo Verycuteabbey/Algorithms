@@ -1,8 +1,8 @@
-# Open Source | Algorithms [Beta]
+# Open Source | Algorithms
 ### Goto
-Tween Algorithm + Tween Controller:
-  - [English](https://github.com/Verycuteabbey/Algorithms/tree/main/Tween)
-  - [简体中文](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/README_CN.md)
+Tween:
+  - [English](https://github.com/Verycuteabbey/Algorithms/tree/main/Tween/v2)
+  - [简体中文](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/v2/README_CN.md)
 # End
 Thank you for using algorithms, we are trying to let this algorithm's experience get more better!
 
