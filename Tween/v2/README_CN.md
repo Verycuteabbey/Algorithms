@@ -1,6 +1,6 @@
 [English](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/v2/README.md)
 ### 这是什么？
-这是一个适用于 Roblox 的 Tween 逻辑算法，你可以 require() 来代替掉 TweenService！
+这是一个适用于 Roblox 的 Tween 逻辑算法 v2，你可以 require() 来代替掉 TweenService！
 ### 使用
 提供了两种模式, `easyTween()` 和 `customTween()`
 
