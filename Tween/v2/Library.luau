@@ -43,8 +43,8 @@ end;
 
 function library:lerpResult(easeType, start: number, target: number, duration: number, process: number)
 	--> analysis
-	local easeStyle, easeDirection, extraProperties = table.unpack(easeType);
-	local A, P, S = table.unpack(extraProperties);
+	local easeStyle, easeDirection, extraProperties = unpack(easeType);
+	local A, P, S = unpack(extraProperties);
 
 	--> variant
 	local currentProcess = process/duration;
@@ -70,40 +70,40 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 	if (easeStyle == "Linear") then
 		return target * currentProcess + start;
 
-		--> "In" direction
+	--> "In" direction
 	elseif (easeDirection == "In") then
 		--> "Quad" style
 		if (easeStyle == "Quad") then
 			return target * currentProcess * currentProcess + start;
 
-			--> "Cubic" style
+		--> "Cubic" style
 		elseif (easeStyle == "Cubic") then
 			return target * currentProcess * currentProcess * currentProcess + start;
 
-			--> "Quart" style
+		--> "Quart" style
 		elseif (easeStyle == "Quart") then
 			return target * currentProcess * currentProcess * currentProcess * currentProcess + start;
 
-			--> "Quint" style
+		--> "Quint" style
 		elseif (easeStyle == "Quint") then
 			return target * currentProcess * currentProcess * currentProcess * currentProcess * currentProcess + start;
 
-			--> "Sine" style
+		--> "Sine" style
 		elseif (easeStyle == "Sine") then
 			return -target * math.cos(currentProcess * (math.pi/2)) + target + start;
 
-			--> "Expo" style
+		--> "Expo" style
 		elseif (easeStyle == "Expo") then
 			if (process == 0) then
 				return start;
 			end;
 			return target * math.pow(2, 10 * (currentProcess - 1)) + start;
 
-			--> "Circ" style
+		--> "Circ" style
 		elseif (easeStyle == "Circ") then
 			return -target * (math.sqrt(1 - currentProcess * currentProcess) - 1) + start;
 
-			--> "Elastic" style
+		--> "Elastic" style
 		elseif (easeStyle == "Elastic") then
 			local S;
 			if (process == 0) then
@@ -124,56 +124,56 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			currentProcess -= 1;
 			return -(A * math.pow(2, 10 * currentProcess) * math.sin((currentProcess * duration - S) * (2 * math.pi)/P)) + start;
 
-			--> "Back" style
+		--> "Back" style
 		elseif (easeStyle == "Back") then
 			if (not S) then
 				S = 1.70158;
 			end;
 			return target * currentProcess * currentProcess * ((S + 1) * currentProcess - S) + start;
 
-			--> "Bounce" style
+		--> "Bounce" style
 		elseif (easeStyle == "Bounce") then
 			return target - bounceResult(0, duration - process) + start;
 		end;
 
-		--> "Out" direction
+	--> "Out" direction
 	elseif (easeDirection == "Out") then
 		--> "Quad" style
 		if (easeStyle == "Quad") then
 			return -target * currentProcess * (currentProcess - 2) + start;
 
-			--> "Cubic" style
+		--> "Cubic" style
 		elseif (easeStyle == "Cubic") then
 			currentProcess -= 1;
 			return target * (currentProcess * currentProcess * currentProcess + 1) + start;
 
-			--> "Quart" style
+		--> "Quart" style
 		elseif (easeStyle == "Quart") then
 			currentProcess -= 1;
 			return -target * (currentProcess * currentProcess * currentProcess * currentProcess - 1) + start;
 
-			--> "Quint" style
+		--> "Quint" style
 		elseif (easeStyle == "Quint") then
 			currentProcess -= 1;
 			return target * (currentProcess * currentProcess * currentProcess * currentProcess * currentProcess + 1) + start;
 
-			--> "Sine" style
+		--> "Sine" style
 		elseif (easeStyle == "Sine") then
 			return target * math.sin(currentProcess * (math.pi/2)) + target;
 
-			--> "Expo" style
+		--> "Expo" style
 		elseif (easeStyle == "Expo") then
 			if (process == duration) then
 				return start + target;
 			end;
 			return target * (-math.pow(2, -10 * currentProcess) + 1) + start;
 
-			--> "Circ" style
+		--> "Circ" style
 		elseif (easeStyle == "Circ") then
 			currentProcess -= 1;
 			return target * math.sqrt(1 - currentProcess * currentProcess) + start;
 
-			--> "Elastic" style
+		--> "Elastic" style
 		elseif (easeStyle == "Elastic") then
 			local S;
 			if (process == 0) then
@@ -193,7 +193,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			end;
 			return A * math.pow(2, -10 * currentProcess) * math.sin((currentProcess * duration - S) * (2 * math.pi)/P) + target + start;
 
-			--> "Back" style
+		--> "Back" style
 		elseif (easeStyle == "Back") then
 			if (not S) then
 				S = 1.70158;
@@ -201,12 +201,12 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			currentProcess -= 1;
 			return target * (currentProcess * currentProcess * ((S + 1) * currentProcess + S) + 1) + start;
 
-			--> "Bounce" style
+		--> "Bounce" style
 		elseif (easeStyle == "Bounce") then
 			return bounceResult(start, process);
 		end;
 
-		--> "InOut" direction
+	--> "InOut" direction
 	elseif (easeDirection == "InOut") then
 		--> "Quad" style
 		if (easeStyle == "Quad") then
@@ -216,7 +216,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			end;
 			return -target/2 * ((currentProcess - 1) * (currentProcess - 2) - 1) + start;
 
-			--> "Cubic" style
+		--> "Cubic" style
 		elseif (easeStyle == "Cubic") then
 			currentProcess /= 2;
 			if (currentProcess < 1) then
@@ -225,7 +225,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			currentProcess -= 2;
 			return target/2 * (currentProcess * currentProcess * currentProcess + 2) + start;
 
-			--> "Quart" style
+		--> "Quart" style
 		elseif (easeStyle == "Quart") then
 			currentProcess /= 2;
 			if (currentProcess < 1) then
@@ -234,7 +234,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			currentProcess -= 2;
 			return -target/2 * (currentProcess * currentProcess * currentProcess * currentProcess - 2) + start;
 
-			--> "Quint" style
+		--> "Quint" style
 		elseif (easeStyle == "Quint") then
 			currentProcess /= 2;
 			if (currentProcess < 1) then
@@ -243,11 +243,11 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			currentProcess -= 2;
 			return target/2 * (currentProcess * currentProcess * currentProcess * currentProcess * currentProcess + 2) + start;
 
-			--> "Sine" style
+		--> "Sine" style
 		elseif (easeStyle == "Sine") then
 			return -target/2 * (math.cos(math.pi * currentProcess) - 1) + start;
 
-			--> "Expo" style
+		--> "Expo" style
 		elseif (easeStyle == "Expo") then
 			if (process == 0) then
 				return start;
@@ -260,7 +260,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			end;
 			return target/2 * (-math.pow(2, -10 * (currentProcess - 1)) + 2) + start;
 
-			--> "Circ" style
+		--> "Circ" style
 		elseif (easeStyle == "Circ") then
 			currentProcess /= 2;
 			if (currentProcess < 1) then
@@ -269,7 +269,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			currentProcess -= 2;
 			return target/2 * (math.sqrt(1 - currentProcess * currentProcess) + 1) + start;
 
-			--> "Elastic" style
+		--> "Elastic" style
 		elseif (easeStyle == "Elastic") then
 			local S;
 			if (process == 0) then
@@ -294,7 +294,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			end;
 			return A * math.pow(2, -10 * currentProcess) * math.sin((currentProcess * duration - S) * (2 * math.pi)/P) * 0.5 + target + start;
 
-			--> "Back" style
+		--> "Back" style
 		elseif (easeStyle == "Back") then
 			if (not S) then
 				S = 1.70158;
@@ -307,7 +307,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			currentProcess -= 2;
 			return target/2 * (currentProcess * currentProcess * (((S + 1) * currentProcess + S) + 2)) + start;
 
-			--> "Bounce" style
+		--> "Bounce" style
 		elseif (easeStyle == "Bounce") then
 			if (process < duration/2) then
 				local result = target * 2 - bounceResult(0, duration - process);
