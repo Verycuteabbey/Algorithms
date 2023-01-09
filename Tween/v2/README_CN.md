@@ -10,7 +10,7 @@
   - `targetInstance` | 目标
   - `targetProperty` | 目标的属性
   - `easeStyle` | 可以是 `Linear`, `Quad`, `Cubic`, `Quart`, `Quint`, `Sine`, `Expo`, `Circ`, `Elastic`, `Back`, `Bounce`
-  - `easeDirection` | 可以是 `In`, `Out`, `InOut`, "OutIn"
+  - `easeDirection` | 可以是 `In`, `Out`, `InOut`, `OutIn`
   - `target` | 属性的目标值
   - `duration` | 需要多少时间完成
 	
@@ -19,7 +19,7 @@
   - `targetProperty` | 目标的属性
   - `easeType` | 一个集合
     - `easeStyle` | 可以是 `Linear`, `Quad`, `Cubic`, `Quart`, `Quint`, `Sine`, `Expo`, `Circ`, `Elastic`, `Back`, `Bounce`
-    - `easeDirection` | 可以是 `In`, `Out`, `InOut`, "OutIn"
+    - `easeDirection` | 可以是 `In`, `Out`, `InOut`, `OutIn`
     - `extraProperties` | 一个集合给 `Elastic` 和 `Back` 效果使用, 详细看 [Extra Properties](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/v1/README_CN.md#extra-properties)
   - `from` | 从属性的哪里开始
   - `target` | 属性的目标值
