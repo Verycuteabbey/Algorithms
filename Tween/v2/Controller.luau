@@ -7,22 +7,23 @@ local runService = game:GetService("RunService");
 
 --———————————— variant ————————————--
 local controller = {};
-controller.tweens = {};
 local library = require();
+local newCFrame = CFrame.new;
+local newColor3 = Color3.fromRGB;
+local newUDim = UDim.new;
+local newUDim2 = UDim2.new;
+local newVector2 = Vector2.new;
+local newVector3 = Vector3.new;
+local typeTable = {
+    ["CFrame"] = newCFrame;
+    ["Color3"] = newColor3;
+    ["UDim"] = newUDim;
+    ["UDim2"] = newUDim2;
+    ["Vector2"] = newVector2;
+    ["Vector3"] = newVector3;
+};
 
 --———————————— function ————————————--
-local function tweenCollector()
-    while (task.wait(1)) do
-        for number, index in pairs(controller.tweens) do
-            index.suspendedTime += 1;
-            if (index.suspendedTime > 5) then
-                index:clear();
-                table.remove(controller.tweens, number);
-            end;
-        end;
-    end;
-end;
-
 function controller:customTween(targetInstance, targetProperty: string, easeType, from, target, duration: number)
     local object = {};
 
@@ -32,61 +33,39 @@ function controller:customTween(targetInstance, targetProperty: string, easeType
     object.suspendedTime = 0;
 
     --> analysis
-    local easeStyle, easeDirection, extraProperties = table.unpack(easeType);
+    local easeStyle, easeDirection, extraProperties = unpack(easeType);
     local propertyType = typeof(targetInstance[targetProperty]);
     local lastProperty = library:transformTarget(from, propertyType);
     local targetResult = library:transformTarget(target, propertyType);
 
     --> main
     local function tween()
-        local finished = false;
+        --> variant
         local nowTime = 0;
         local lerpResult = {};
+        local options = {easeStyle, easeDirection, extraProperties};
+        local transform = typeTable[propertyType];
 
         --> lerp
-        local function onHeartbeat()
-            if (nowTime > duration) then
-                finished = true;
-                return;
+        local function onHeartbeat(deltaTime: number)
+            if (nowTime >= duration) then
+                object.connection:Disconnect();
+                nowTime = duration;
             end;
-            for number, index in pairs(targetResult) do
-                lerpResult[number] = library:lerpResult({easeStyle, easeDirection, extraProperties}, lastProperty[number], index - lastProperty[number], duration, nowTime);
+            for number, index in ipairs(targetResult) do
+                lerpResult[number] = library:lerpResult(options, lastProperty[number], index - lastProperty[number], duration, nowTime);
             end;
-            if (propertyType == "CFrame") then
-                targetInstance[targetProperty] = CFrame.new(lerpResult[1], lerpResult[2], lerpResult[3]);
-            elseif (propertyType == "Color3") then
-                targetInstance[targetProperty] = Color3.fromRGB(lerpResult[1], lerpResult[2], lerpResult[3]);
-            elseif (propertyType == "number") then
-                targetInstance[targetProperty] = lerpResult[1];
-            elseif (propertyType == "UDim") then
-                targetInstance[targetProperty] = UDim.new(lerpResult[1], lerpResult[2]);
-            elseif (propertyType == "UDim2") then
-                targetInstance[targetProperty] = UDim2.new(lerpResult[1], lerpResult[2], lerpResult[3], lerpResult[4]);
-            elseif (propertyType == "Vector2") then
-                targetInstance[targetProperty] = Vector2.new(lerpResult[1], lerpResult[2]);
-            elseif (propertyType == "Vector3") then
-                targetInstance[targetProperty] = Vector3.new(lerpResult[1], lerpResult[2], lerpResult[3]);
+            if (propertyType == "number") then
+                targetInstance[targetProperty] = unpack(lerpResult);
+            else
+                targetInstance[targetProperty] = transform(unpack(lerpResult));
             end;
-            table.clear(lerpResult);
-			nowTime += task.wait();
+            nowTime += deltaTime;
             object.suspendedTime = 0;
         end;
 
         --> connection
-        for _, index in pairs(self.tweens) do
-            if ((index.instance == targetInstance) and (index.property == targetProperty)) then
-                index:stop();
-            end;
-        end;
-        local Connection = runService.Heartbeat:Connect(onHeartbeat);
-        object.connection = Connection;
-        while (true) do
-            if (finished) then
-                break;
-            end;
-            task.wait();
-        end;
-        Connection:Disconnect();
+        object.connection = runService.Heartbeat:Connect(onHeartbeat);
     end;
 
     --> function
@@ -97,17 +76,40 @@ function controller:customTween(targetInstance, targetProperty: string, easeType
     function object:replay()
         self:stop();
         self.suspendedTime = 0;
-        self.thread = task.spawn(tween);
+        if (self.newFunction) then
+            self.thread = task.spawn(self.newFunction);
+        else
+            self.thread = task.spawn(tween);
+        end;
     end;
     function object:stop()
         self.connection:Disconnect();
         task.cancel(self.thread);
     end;
+    function object:update(targetFunction)
+        self.newFunction = targetFunction;
+    end;
 
-    --> end
-    object.thread = task.spawn(tween);
-    table.insert(self.tweens, object);
-    return object;
+    --> find
+    local findResult = library:findTween(targetInstance, targetProperty);
+    if (findResult) then
+        findResult:update(tween);
+        findResult:replay();
+        return findResult;
+
+    --> resume
+    else
+        local resumeResult = library:resumeTween(targetInstance, targetProperty, tween);
+        if (resumeResult) then
+            return resumeResult;
+
+        --> new
+        else
+            object.thread = task.spawn(tween);
+            table.insert(library.active, object);
+            return object;
+        end;
+    end;
 end;
 
 function controller:easyTween(targetInstance, targetProperty: string, easeStyle: string, easeDirection: string, target, duration: number)
@@ -125,54 +127,31 @@ function controller:easyTween(targetInstance, targetProperty: string, easeStyle:
 
     --> main
     local function tween()
-        local finished = false;
         local nowTime = 0;
         local lerpResult = {};
+        local options = {easeStyle, easeDirection, {}};
+        local transform = typeTable[propertyType];
 
         --> lerp
-        local function onHeartbeat()
-            if (nowTime > duration) then
-                finished = true;
-                return;
+        local function onHeartbeat(deltaTime: number)
+            if (nowTime >= duration) then
+                object.connection:Disconnect();
+                nowTime = duration;
             end;
-            for number, index in pairs(targetResult) do
-                lerpResult[number] = library:lerpResult({easeStyle, easeDirection, {}}, lastProperty[number], index - lastProperty[number], duration, nowTime);
+            for number, index in ipairs(targetResult) do
+                lerpResult[number] = library:lerpResult(options, lastProperty[number], index - lastProperty[number], duration, nowTime);
             end;
-            if (propertyType == "CFrame") then
-                targetInstance[targetProperty] = CFrame.new(lerpResult[1], lerpResult[2], lerpResult[3]);
-            elseif (propertyType == "Color3") then
-                targetInstance[targetProperty] = Color3.fromRGB(lerpResult[1], lerpResult[2], lerpResult[3]);
-            elseif (propertyType == "number") then
-                targetInstance[targetProperty] = lerpResult[1];
-            elseif (propertyType == "UDim") then
-                targetInstance[targetProperty] = UDim.new(lerpResult[1], lerpResult[2]);
-            elseif (propertyType == "UDim2") then
-                targetInstance[targetProperty] = UDim2.new(lerpResult[1], lerpResult[2], lerpResult[3], lerpResult[4]);
-            elseif (propertyType == "Vector2") then
-                targetInstance[targetProperty] = Vector2.new(lerpResult[1], lerpResult[2]);
-            elseif (propertyType == "Vector3") then
-                targetInstance[targetProperty] = Vector3.new(lerpResult[1], lerpResult[2], lerpResult[3]);
+            if (propertyType == "number") then
+                targetInstance[targetProperty] = unpack(lerpResult);
+            else
+                targetInstance[targetProperty] = transform(unpack(lerpResult));
             end;
-            table.clear(lerpResult);
-			nowTime += task.wait();
+			nowTime += deltaTime;
             object.suspendedTime = 0;
         end;
 
         --> connection
-        for _, index in pairs(self.tweens) do
-            if ((index.instance == targetInstance) and (index.property == targetProperty)) then
-                index:stop();
-            end;
-        end;
-        local Connection = runService.Heartbeat:Connect(onHeartbeat);
-        object.connection = Connection;
-        while (true) do
-            if (finished) then
-                break;
-            end;
-            task.wait();
-        end;
-        Connection:Disconnect();
+        object.connection = runService.Heartbeat:Connect(onHeartbeat);
     end;
 
     --> function
@@ -182,20 +161,42 @@ function controller:easyTween(targetInstance, targetProperty: string, easeStyle:
     end;
     function object:replay()
         self:stop();
-        object.suspendedTime = 0;
-        self.thread = task.spawn(tween);
+        self.suspendedTime = 0;
+        if (self.newFunction) then
+            self.thread = task.spawn(self.newFunction);
+        else
+            self.thread = task.spawn(tween);
+        end;
     end;
     function object:stop()
         self.connection:Disconnect();
         task.cancel(self.thread);
     end;
+    function object:update(targetFunction)
+        self.newFunction = targetFunction;
+    end;
 
-    --> end
-    object.thread = task.spawn(tween);
-    table.insert(self.tweens, object);
-    return object;
+    --> find
+    local findResult = library:findTween(targetInstance, targetProperty);
+    if (findResult) then
+        findResult:update(tween);
+        findResult:replay();
+        return findResult;
+
+    --> resume
+    else
+        local resumeResult = library:resumeTween(targetInstance, targetProperty, tween);
+        if (resumeResult) then
+            return resumeResult;
+
+        --> new
+        else
+            object.thread = task.spawn(tween);
+            table.insert(library.active, object);
+            return object;
+        end;
+    end;
 end;
 
 --———————————— run ————————————--
-task.defer(tweenCollector);
 return controller;
