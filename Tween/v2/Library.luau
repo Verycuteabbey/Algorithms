@@ -4,8 +4,43 @@
 
 --———————————— variant ————————————--
 local library = {};
+library.active = {};
+library.suspended = {};
 
 --———————————— function ————————————--
+local function tweenCollector()
+	local LoopedTime = 0;
+	while (task.wait(1)) do
+		--> tab
+		for number, index in pairs(library.active) do
+			index.suspendedTime += 1;
+			if (index.suspendedTime > 5) then
+				table.insert(library.suspended, index);
+				table.remove(library.active, number);
+			end;
+		end;
+		LoopedTime += 1;
+
+		--> clear
+		if (LoopedTime > 60) then
+			for number, index in pairs(library.suspended) do
+				index:clear();
+				table.remove(library.suspended, number);
+			end;
+			LoopedTime = 0;
+		end;
+	end;
+end;
+
+function library:findTween(targetInstance, targetProperty: string)
+	for _, index in pairs(self.active) do
+		if ((index.instance == targetInstance) and (index.property == targetProperty)) then
+			return index;
+		end;
+	end;
+	return;
+end;
+
 function library:lerpResult(easeType, start: number, target: number, duration: number, process: number)
 	--> analysis
 	local easeStyle, easeDirection, extraProperties = table.unpack(easeType);
@@ -18,16 +53,16 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 	local function bounceResult(start: number, process: number)
 		local currentProcess = process/duration;
 		if (currentProcess < (1/2.75)) then
-			return target * (7.5625 * currentProcess^2) + start;
+			return target * (7.5625 * currentProcess * currentProcess) + start;
 		elseif (currentProcess < (2/2.75)) then
 			currentProcess -= 1.5/2.75;
-			return target * (7.5625 * currentProcess^2 + 0.75) + start;
+			return target * (7.5625 * currentProcess * currentProcess + 0.75) + start;
 		elseif (currentProcess < (2.5/2.75)) then
 			currentProcess -= 2.25/2.75;
-			return target * (7.5625 * currentProcess^2 + 0.9375) + start;
+			return target * (7.5625 * currentProcess * currentProcess + 0.9375) + start;
 		else
 			currentProcess -= 2.625/2.75;
-			return target * (7.5625 * currentProcess^2 + 0.984375) + start;
+			return target * (7.5625 * currentProcess * currentProcess + 0.984375) + start;
 		end;
 	end;
 
@@ -39,19 +74,19 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 	elseif (easeDirection == "In") then
 		--> "Quad" style
 		if (easeStyle == "Quad") then
-			return target * currentProcess^2 + start;
+			return target * currentProcess * currentProcess + start;
 
 			--> "Cubic" style
 		elseif (easeStyle == "Cubic") then
-			return target * currentProcess^3 + start;
+			return target * currentProcess * currentProcess * currentProcess + start;
 
 			--> "Quart" style
 		elseif (easeStyle == "Quart") then
-			return target * currentProcess^4 + start;
+			return target * currentProcess * currentProcess * currentProcess * currentProcess + start;
 
 			--> "Quint" style
 		elseif (easeStyle == "Quint") then
-			return target * currentProcess^5 + start;
+			return target * currentProcess * currentProcess * currentProcess * currentProcess * currentProcess + start;
 
 			--> "Sine" style
 		elseif (easeStyle == "Sine") then
@@ -66,7 +101,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 
 			--> "Circ" style
 		elseif (easeStyle == "Circ") then
-			return -target * (math.sqrt(1 - currentProcess^2) - 1) + start;
+			return -target * (math.sqrt(1 - currentProcess * currentProcess) - 1) + start;
 
 			--> "Elastic" style
 		elseif (easeStyle == "Elastic") then
@@ -94,7 +129,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			if (not S) then
 				S = 1.70158;
 			end;
-			return target * currentProcess^2 * ((S + 1) * currentProcess - S) + start;
+			return target * currentProcess * currentProcess * ((S + 1) * currentProcess - S) + start;
 
 			--> "Bounce" style
 		elseif (easeStyle == "Bounce") then
@@ -110,17 +145,17 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			--> "Cubic" style
 		elseif (easeStyle == "Cubic") then
 			currentProcess -= 1;
-			return target * (currentProcess^3 + 1) + start;
+			return target * (currentProcess * currentProcess * currentProcess + 1) + start;
 
 			--> "Quart" style
 		elseif (easeStyle == "Quart") then
 			currentProcess -= 1;
-			return -target * (currentProcess^4 - 1) + start;
+			return -target * (currentProcess * currentProcess * currentProcess * currentProcess - 1) + start;
 
 			--> "Quint" style
 		elseif (easeStyle == "Quint") then
 			currentProcess -= 1;
-			return target * (currentProcess^5 + 1) + start;
+			return target * (currentProcess * currentProcess * currentProcess * currentProcess * currentProcess + 1) + start;
 
 			--> "Sine" style
 		elseif (easeStyle == "Sine") then
@@ -136,7 +171,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			--> "Circ" style
 		elseif (easeStyle == "Circ") then
 			currentProcess -= 1;
-			return target * math.sqrt(1 - currentProcess^2) + start;
+			return target * math.sqrt(1 - currentProcess * currentProcess) + start;
 
 			--> "Elastic" style
 		elseif (easeStyle == "Elastic") then
@@ -164,7 +199,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 				S = 1.70158;
 			end;
 			currentProcess -= 1;
-			return target * (currentProcess^2 * ((S + 1) * currentProcess + S) + 1) + start;
+			return target * (currentProcess * currentProcess * ((S + 1) * currentProcess + S) + 1) + start;
 
 			--> "Bounce" style
 		elseif (easeStyle == "Bounce") then
@@ -177,7 +212,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 		if (easeStyle == "Quad") then
 			currentProcess /= 2;
 			if (currentProcess < 1) then
-				return target/2 * currentProcess^2 + start;
+				return target/2 * currentProcess * currentProcess + start;
 			end;
 			return -target/2 * ((currentProcess - 1) * (currentProcess - 2) - 1) + start;
 
@@ -185,28 +220,28 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 		elseif (easeStyle == "Cubic") then
 			currentProcess /= 2;
 			if (currentProcess < 1) then
-				return target/2 * currentProcess^3 + start;
+				return target/2 * currentProcess * currentProcess * currentProcess + start;
 			end;
 			currentProcess -= 2;
-			return target/2 * (currentProcess^3 + 2) + start;
+			return target/2 * (currentProcess * currentProcess * currentProcess + 2) + start;
 
 			--> "Quart" style
 		elseif (easeStyle == "Quart") then
 			currentProcess /= 2;
 			if (currentProcess < 1) then
-				return target/2 * currentProcess^4 + start;
+				return target/2 * currentProcess * currentProcess * currentProcess * currentProcess + start;
 			end;
 			currentProcess -= 2;
-			return -target/2 * (currentProcess^4 - 2) + start;
+			return -target/2 * (currentProcess * currentProcess * currentProcess * currentProcess - 2) + start;
 
 			--> "Quint" style
 		elseif (easeStyle == "Quint") then
 			currentProcess /= 2;
 			if (currentProcess < 1) then
-				return target/2 * currentProcess^5 + start;
+				return target/2 * currentProcess * currentProcess * currentProcess * currentProcess * currentProcess + start;
 			end;
 			currentProcess -= 2;
-			return target/2 * (currentProcess^5 + 2) + start;
+			return target/2 * (currentProcess * currentProcess * currentProcess * currentProcess * currentProcess + 2) + start;
 
 			--> "Sine" style
 		elseif (easeStyle == "Sine") then
@@ -229,10 +264,10 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 		elseif (easeStyle == "Circ") then
 			currentProcess /= 2;
 			if (currentProcess < 1) then
-				return -target/2 * (math.sqrt(1 - currentProcess^2) - 1) + start;
+				return -target/2 * (math.sqrt(1 - currentProcess * currentProcess) - 1) + start;
 			end;
 			currentProcess -= 2;
-			return target/2 * (math.sqrt(1 - currentProcess^2) + 1) + start;
+			return target/2 * (math.sqrt(1 - currentProcess * currentProcess) + 1) + start;
 
 			--> "Elastic" style
 		elseif (easeStyle == "Elastic") then
@@ -267,10 +302,10 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			currentProcess /= 2;
 			S *= 1.525;
 			if (currentProcess < 1) then
-				return target/2 * (currentProcess^2 * ((S + 1) * currentProcess - S)) + start;
+				return target/2 * (currentProcess * currentProcess * ((S + 1) * currentProcess - S)) + start;
 			end;
 			currentProcess -= 2;
-			return target/2 * (currentProcess^2 * (((S + 1) * currentProcess + S) + 2)) + start;
+			return target/2 * (currentProcess * currentProcess * (((S + 1) * currentProcess + S) + 2)) + start;
 
 			--> "Bounce" style
 		elseif (easeStyle == "Bounce") then
@@ -281,6 +316,20 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			return bounceResult(0, process * 2 - duration) * 0.5 + target * 0.5 + start;
 		end;
 	end;
+end;
+
+function library:resumeTween(targetInstance, targetProperty: string, targetFunction)
+	for number, index in pairs(self.suspended) do
+		if ((index.instance == targetInstance) and (index.property == targetProperty)) then
+			index:update(targetFunction);
+			index:replay();
+			table.insert(self.active, index);
+			table.remove(self.suspended, number);
+			local findResult = library:findTween(targetInstance, targetProperty);
+			return findResult;
+		end;
+	end;
+	return;
 end;
 
 function library:transformTarget(target, transformType: string)
@@ -327,4 +376,5 @@ function library:transformTarget(target, transformType: string)
 end;
 
 --———————————— run ————————————--
+task.spawn(tweenCollector);
 return library;
