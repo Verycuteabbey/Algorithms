@@ -1,6 +1,7 @@
 [English](https://github.com/Verycuteabbey/Algorithms/blob/main/Tween/v1/README.md)
 ## 警告
 **该算法还处于测试阶段，不能保证在使用过程中没有任何问题**
+**现已推出全新 v2 版本，非常推荐使用 v2 而不是要废弃的 v1**
 ### 这是什么？
 这是一个适用于 Roblox 的 Tween 逻辑算法, 你可以 require() Tween 来取代 TweenService (**不能完全取代，在效率方面 Roblox API 要好一些**)
 ### 使用
