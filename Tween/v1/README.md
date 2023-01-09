@@ -2,7 +2,7 @@
 ## Warning
 **This algorithm still in beta, there is no guarantee that there will be no problems during use**
 
-**New version of this algorithm is recommened, this version will be deprecated**
+**v2 has release, it is highly recommended to use v2 instead of v1**
 ### What is this?
 This is a Tween Logic Algorithm for Roblox, you can require() Tween to instead TweenService (**Can't instead all!!! At efficiency, Roblox API more better**)
 ### Use
