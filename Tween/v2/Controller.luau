@@ -1,6 +1,16 @@
---> module compiled by VoID#6890(mengmengyujie@hotmail.com)
+--> module compiled by VoID#6890(mengmengyujie@hotmail.com) & smallpenguin666(2942169233@qq.com)
 
 --> object for: Tween - Controller
+
+--———————————— reference ————————————--
+local cancel = task.cancel;
+local newCFrame = CFrame.new;
+local newColor3 = Color3.fromRGB;
+local newUDim = UDim.new;
+local newUDim2 = UDim2.new;
+local newVector2 = Vector2.new;
+local newVector3 = Vector3.new;
+local spawn = task.spawn;
 
 --———————————— service ————————————--
 local runService = game:GetService("RunService");
@@ -8,12 +18,6 @@ local runService = game:GetService("RunService");
 --———————————— variant ————————————--
 local controller = {};
 local library = require();
-local newCFrame = CFrame.new;
-local newColor3 = Color3.fromRGB;
-local newUDim = UDim.new;
-local newUDim2 = UDim2.new;
-local newVector2 = Vector2.new;
-local newVector3 = Vector3.new;
 local typeTable = {
     ["CFrame"] = newCFrame;
     ["Color3"] = newColor3;
@@ -47,21 +51,33 @@ function controller:customTween(targetInstance, targetProperty: string, easeType
         local transform = typeTable[propertyType];
 
         --> lerp
-        local function onHeartbeat(deltaTime: number)
-            if (nowTime >= duration) then
-                object.connection:Disconnect();
-                nowTime = duration;
-            end;
-            for number, index in ipairs(targetResult) do
-                lerpResult[number] = library:lerpResult(options, lastProperty[number], index - lastProperty[number], duration, nowTime);
-            end;
-            if (propertyType == "number") then
+        local onHeartbeat;
+        if (propertyType == "number") then
+            onHeartbeat = function(deltaTime: number)
+                if (nowTime >= duration) then
+                    object.connection:Disconnect();
+                    nowTime = duration;
+                end;
+                for number, index in ipairs(targetResult) do
+                    lerpResult[number] = library:lerpResult(options, lastProperty[number], index - lastProperty[number], duration, nowTime);
+                end;
                 targetInstance[targetProperty] = unpack(lerpResult);
-            else
-                targetInstance[targetProperty] = transform(unpack(lerpResult));
+                nowTime += deltaTime;
+                object.suspendedTime = 0;
             end;
-            nowTime += deltaTime;
-            object.suspendedTime = 0;
+        else
+            onHeartbeat = function(deltaTime: number)
+                if (nowTime >= duration) then
+                    object.connection:Disconnect();
+                    nowTime = duration;
+                end;
+                for number, index in ipairs(targetResult) do
+                    lerpResult[number] = library:lerpResult(options, lastProperty[number], index - lastProperty[number], duration, nowTime);
+                end;
+                targetInstance[targetProperty] = transform(unpack(lerpResult));
+                nowTime += deltaTime;
+                object.suspendedTime = 0;
+            end;
         end;
 
         --> connection
@@ -77,14 +93,14 @@ function controller:customTween(targetInstance, targetProperty: string, easeType
         self:stop();
         self.suspendedTime = 0;
         if (self.newFunction) then
-            self.thread = task.spawn(self.newFunction);
+            self.thread = spawn(self.newFunction);
         else
-            self.thread = task.spawn(tween);
+            self.thread = spawn(tween);
         end;
     end;
     function object:stop()
         self.connection:Disconnect();
-        task.cancel(self.thread);
+        cancel(self.thread);
     end;
     function object:update(targetFunction)
         self.newFunction = targetFunction;
@@ -105,7 +121,7 @@ function controller:customTween(targetInstance, targetProperty: string, easeType
 
         --> new
         else
-            object.thread = task.spawn(tween);
+            object.thread = spawn(tween);
             table.insert(library.active, object);
             return object;
         end;
@@ -133,21 +149,33 @@ function controller:easyTween(targetInstance, targetProperty: string, easeStyle:
         local transform = typeTable[propertyType];
 
         --> lerp
-        local function onHeartbeat(deltaTime: number)
-            if (nowTime >= duration) then
-                object.connection:Disconnect();
-                nowTime = duration;
-            end;
-            for number, index in ipairs(targetResult) do
-                lerpResult[number] = library:lerpResult(options, lastProperty[number], index - lastProperty[number], duration, nowTime);
-            end;
-            if (propertyType == "number") then
+        local onHeartbeat;
+        if (propertyType == "number") then
+            onHeartbeat = function(deltaTime: number)
+                if (nowTime >= duration) then
+                    object.connection:Disconnect();
+                    nowTime = duration;
+                end;
+                for number, index in ipairs(targetResult) do
+                    lerpResult[number] = library:lerpResult(options, lastProperty[number], index - lastProperty[number], duration, nowTime);
+                end;
                 targetInstance[targetProperty] = unpack(lerpResult);
-            else
-                targetInstance[targetProperty] = transform(unpack(lerpResult));
+                nowTime += deltaTime;
+                object.suspendedTime = 0;
             end;
-			nowTime += deltaTime;
-            object.suspendedTime = 0;
+        else
+            onHeartbeat = function(deltaTime: number)
+                if (nowTime >= duration) then
+                    object.connection:Disconnect();
+                    nowTime = duration;
+                end;
+                for number, index in ipairs(targetResult) do
+                    lerpResult[number] = library:lerpResult(options, lastProperty[number], index - lastProperty[number], duration, nowTime);
+                end;
+                targetInstance[targetProperty] = transform(unpack(lerpResult));
+                nowTime += deltaTime;
+                object.suspendedTime = 0;
+            end;
         end;
 
         --> connection
@@ -163,14 +191,14 @@ function controller:easyTween(targetInstance, targetProperty: string, easeStyle:
         self:stop();
         self.suspendedTime = 0;
         if (self.newFunction) then
-            self.thread = task.spawn(self.newFunction);
+            self.thread = spawn(self.newFunction);
         else
-            self.thread = task.spawn(tween);
+            self.thread = spawn(tween);
         end;
     end;
     function object:stop()
         self.connection:Disconnect();
-        task.cancel(self.thread);
+        cancel(self.thread);
     end;
     function object:update(targetFunction)
         self.newFunction = targetFunction;
@@ -191,7 +219,7 @@ function controller:easyTween(targetInstance, targetProperty: string, easeStyle:
 
         --> new
         else
-            object.thread = task.spawn(tween);
+            object.thread = spawn(tween);
             table.insert(library.active, object);
             return object;
         end;
