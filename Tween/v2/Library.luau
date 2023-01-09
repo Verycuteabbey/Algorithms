@@ -1,31 +1,45 @@
---> module compiled by VoID#6890(mengmengyujie@hotmail.com)
+--> module compiled by VoID#6890(mengmengyujie@hotmail.com) & smallpenguin666(2942169233@qq.com)
 
 --> object for: Tween - Library
 
+--———————————— reference ————————————--
+local abs = math.abs;
+local asin = math.asin;
+local cos = math.cos;
+local pi = math.pi;
+local pow = math.pow;
+local remove = table.remove;
+local sin = math.sin;
+local spawn = task.spawn;
+local sqrt = math.sqrt;
+local wait = task.wait;
+
 --———————————— variant ————————————--
+local active = {};
 local library = {};
-library.active = {};
-library.suspended = {};
+local suspended = {};
+library.active = active;
+library.suspended = suspended;
 
 --———————————— function ————————————--
 local function tweenCollector()
 	local LoopedTime = 0;
-	while (task.wait(1)) do
+	while (wait(1)) do
 		--> tab
-		for number, index in pairs(library.active) do
+		for number, index in pairs(active) do
 			index.suspendedTime += 1;
 			if (index.suspendedTime > 5) then
-				table.insert(library.suspended, index);
-				table.remove(library.active, number);
+				active[#active + 1] = index;
+				remove(active, number);
 			end;
 		end;
 		LoopedTime += 1;
 
 		--> clear
 		if (LoopedTime > 60) then
-			for number, index in pairs(library.suspended) do
+			for number, index in pairs(suspended) do
 				index:clear();
-				table.remove(library.suspended, number);
+				remove(suspended, number);
 			end;
 			LoopedTime = 0;
 		end;
@@ -33,7 +47,7 @@ local function tweenCollector()
 end;
 
 function library:findTween(targetInstance, targetProperty: string)
-	for _, index in pairs(self.active) do
+	for _, index in pairs(active) do
 		if ((index.instance == targetInstance) and (index.property == targetProperty)) then
 			return index;
 		end;
@@ -90,18 +104,18 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 
 		--> "Sine" style
 		elseif (easeStyle == "Sine") then
-			return -target * math.cos(currentProcess * (math.pi/2)) + target + start;
+			return -target * cos(currentProcess * (pi/2)) + target + start;
 
 		--> "Expo" style
 		elseif (easeStyle == "Expo") then
 			if (process == 0) then
 				return start;
 			end;
-			return target * math.pow(2, 10 * (currentProcess - 1)) + start;
+			return target * pow(2, 10 * (currentProcess - 1)) + start;
 
 		--> "Circ" style
 		elseif (easeStyle == "Circ") then
-			return -target * (math.sqrt(1 - currentProcess * currentProcess) - 1) + start;
+			return -target * (sqrt(1 - currentProcess * currentProcess) - 1) + start;
 
 		--> "Elastic" style
 		elseif (easeStyle == "Elastic") then
@@ -115,14 +129,14 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			if (not P) then
 				P = duration * 0.3;
 			end;
-			if ((not A) or (A < math.abs(target))) then
+			if ((not A) or (A < abs(target))) then
 				A = target;
 				S = P/4;
 			else
-				S = P/(2 * math.pi) * math.asin(target/A);
+				S = P/(2 * pi) * asin(target/A);
 			end;
 			currentProcess -= 1;
-			return -(A * math.pow(2, 10 * currentProcess) * math.sin((currentProcess * duration - S) * (2 * math.pi)/P)) + start;
+			return -(A * pow(2, 10 * currentProcess) * sin((currentProcess * duration - S) * (2 * pi)/P)) + start;
 
 		--> "Back" style
 		elseif (easeStyle == "Back") then
@@ -159,19 +173,19 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 
 		--> "Sine" style
 		elseif (easeStyle == "Sine") then
-			return target * math.sin(currentProcess * (math.pi/2)) + target;
+			return target * sin(currentProcess * (pi/2)) + target;
 
 		--> "Expo" style
 		elseif (easeStyle == "Expo") then
 			if (process == duration) then
 				return start + target;
 			end;
-			return target * (-math.pow(2, -10 * currentProcess) + 1) + start;
+			return target * (-pow(2, -10 * currentProcess) + 1) + start;
 
 		--> "Circ" style
 		elseif (easeStyle == "Circ") then
 			currentProcess -= 1;
-			return target * math.sqrt(1 - currentProcess * currentProcess) + start;
+			return target * sqrt(1 - currentProcess * currentProcess) + start;
 
 		--> "Elastic" style
 		elseif (easeStyle == "Elastic") then
@@ -185,13 +199,13 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			if (not P) then
 				P = duration * 0.3;
 			end;
-			if ((not A) or (A < math.abs(target))) then
+			if ((not A) or (A < abs(target))) then
 				A = target;
 				S = P/4;
 			else
-				S = P/(2 * math.pi) * math.asin(target/A);
+				S = P/(2 * pi) * asin(target/A);
 			end;
-			return A * math.pow(2, -10 * currentProcess) * math.sin((currentProcess * duration - S) * (2 * math.pi)/P) + target + start;
+			return A * pow(2, -10 * currentProcess) * sin((currentProcess * duration - S) * (2 * pi)/P) + target + start;
 
 		--> "Back" style
 		elseif (easeStyle == "Back") then
@@ -245,7 +259,7 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 
 		--> "Sine" style
 		elseif (easeStyle == "Sine") then
-			return -target/2 * (math.cos(math.pi * currentProcess) - 1) + start;
+			return -target/2 * (cos(pi * currentProcess) - 1) + start;
 
 		--> "Expo" style
 		elseif (easeStyle == "Expo") then
@@ -256,18 +270,18 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			end;
 			currentProcess /= 2;
 			if (currentProcess < 1) then
-				return target/2 * math.pow(2, 10 * (currentProcess - 1)) + start;
+				return target/2 * pow(2, 10 * (currentProcess - 1)) + start;
 			end;
-			return target/2 * (-math.pow(2, -10 * (currentProcess - 1)) + 2) + start;
+			return target/2 * (-pow(2, -10 * (currentProcess - 1)) + 2) + start;
 
 		--> "Circ" style
 		elseif (easeStyle == "Circ") then
 			currentProcess /= 2;
 			if (currentProcess < 1) then
-				return -target/2 * (math.sqrt(1 - currentProcess * currentProcess) - 1) + start;
+				return -target/2 * (sqrt(1 - currentProcess * currentProcess) - 1) + start;
 			end;
 			currentProcess -= 2;
-			return target/2 * (math.sqrt(1 - currentProcess * currentProcess) + 1) + start;
+			return target/2 * (sqrt(1 - currentProcess * currentProcess) + 1) + start;
 
 		--> "Elastic" style
 		elseif (easeStyle == "Elastic") then
@@ -282,17 +296,17 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			if (not P) then
 				P = duration * (0.3 * 1.5);
 			end;
-			if ((not A) or (A < math.abs(target))) then
+			if ((not A) or (A < abs(target))) then
 				A = target;
 				S = P/4;
 			else
-				S = P/(2 * math.pi) * math.asin(target/A);
+				S = P/(2 * pi) * asin(target/A);
 			end;
 			currentProcess -= 1;
 			if (currentProcess < 1) then
-				return -0.5 * (A * math.pow(2, 10 * currentProcess) * math.sin((currentProcess * duration - S) * (2 * math.pi)/P)) + start;
+				return -0.5 * (A * pow(2, 10 * currentProcess) * sin((currentProcess * duration - S) * (2 * pi)/P)) + start;
 			end;
-			return A * math.pow(2, -10 * currentProcess) * math.sin((currentProcess * duration - S) * (2 * math.pi)/P) * 0.5 + target + start;
+			return A * pow(2, -10 * currentProcess) * sin((currentProcess * duration - S) * (2 * pi)/P) * 0.5 + target + start;
 
 		--> "Back" style
 		elseif (easeStyle == "Back") then
@@ -315,16 +329,152 @@ function library:lerpResult(easeType, start: number, target: number, duration: n
 			end;
 			return bounceResult(0, process * 2 - duration) * 0.5 + target * 0.5 + start;
 		end;
+
+	--> "OutIn" direction
+	elseif (easeDirection == "OutIn") then
+		target /= 2;
+		if (currentProcess <= 0.5) then
+			--> "Quad" style
+			if (easeStyle == "Quad") then
+				return -target * currentProcess * (currentProcess - 2) + start;
+
+			--> "Cubic" style
+			elseif (easeStyle == "Cubic") then
+				currentProcess -= 1;
+				return target * (currentProcess * currentProcess * currentProcess + 1) + start;
+
+			--> "Quart" style
+			elseif (easeStyle == "Quart") then
+				currentProcess -= 1;
+				return -target * (currentProcess * currentProcess * currentProcess * currentProcess - 1) + start;
+
+			--> "Quint" style
+			elseif (easeStyle == "Quint") then
+				currentProcess -= 1;
+				return target * (currentProcess * currentProcess * currentProcess * currentProcess * currentProcess + 1) + start;
+
+			--> "Sine" style
+			elseif (easeStyle == "Sine") then
+				return target * sin(currentProcess * (pi/2)) + target;
+
+			--> "Expo" style
+			elseif (easeStyle == "Expo") then
+				if (process == duration) then
+					return start + target;
+				end;
+				return target * (-pow(2, -10 * currentProcess) + 1) + start;
+
+			--> "Circ" style
+			elseif (easeStyle == "Circ") then
+				currentProcess -= 1;
+				return target * sqrt(1 - currentProcess * currentProcess) + start;
+
+			--> "Elastic" style
+			elseif (easeStyle == "Elastic") then
+				local S;
+				if (process == 0) then
+					return start;
+				end;
+				if (currentProcess == 1) then
+					return start + target;
+				end;
+				if (not P) then
+					P = duration * 0.3;
+				end;
+				if ((not A) or (A < abs(target))) then
+					A = target;
+					S = P/4;
+				else
+					S = P/(2 * pi) * asin(target/A);
+				end;
+				return A * pow(2, -10 * currentProcess) * sin((currentProcess * duration - S) * (2 * pi)/P) + target + start;
+
+				--> "Back" style
+			elseif (easeStyle == "Back") then
+				if (not S) then
+					S = 1.70158;
+				end;
+				currentProcess -= 1;
+				return target * (currentProcess * currentProcess * ((S + 1) * currentProcess + S) + 1) + start;
+
+				--> "Bounce" style
+			elseif (easeStyle == "Bounce") then
+				return bounceResult(start, process);
+			end;
+		end;
+		--> "Quad" style
+		if (easeStyle == "Quad") then
+			return target + target * currentProcess * currentProcess + start;
+
+		--> "Cubic" style
+		elseif (easeStyle == "Cubic") then
+			return target + target * currentProcess * currentProcess * currentProcess + start;
+
+		--> "Quart" style
+		elseif (easeStyle == "Quart") then
+			return target + target * currentProcess * currentProcess * currentProcess * currentProcess + start;
+
+		--> "Quint" style
+		elseif (easeStyle == "Quint") then
+			return target + target * currentProcess * currentProcess * currentProcess * currentProcess * currentProcess + start;
+
+		--> "Sine" style
+		elseif (easeStyle == "Sine") then
+			return target + -target * cos(currentProcess * (pi/2)) + target + start;
+
+		--> "Expo" style
+		elseif (easeStyle == "Expo") then
+			if (process == 0) then
+				return target + start;
+			end;
+			return target + target * pow(2, 10 * (currentProcess - 1)) + start;
+
+		--> "Circ" style
+		elseif (easeStyle == "Circ") then
+			return target + -target * (sqrt(1 - currentProcess * currentProcess) - 1) + start;
+
+		--> "Elastic" style
+		elseif (easeStyle == "Elastic") then
+			local S;
+			if (process == 0) then
+				return target + start;
+			end;
+			if (currentProcess == 1) then
+				return target + start + target;
+			end;
+			if (not P) then
+				P = duration * 0.3;
+			end;
+			if ((not A) or (A < abs(target))) then
+				A = target;
+				S = P/4;
+			else
+				S = P/(2 * pi) * asin(target/A);
+			end;
+			currentProcess -= 1;
+			return target + -(A * pow(2, 10 * currentProcess) * sin((currentProcess * duration - S) * (2 * pi)/P)) + start;
+
+		--> "Back" style
+		elseif (easeStyle == "Back") then
+			if (not S) then
+				S = 1.70158;
+			end;
+			return target + target * currentProcess * currentProcess * ((S + 1) * currentProcess - S) + start;
+
+		--> "Bounce" style
+		elseif (easeStyle == "Bounce") then
+			return target + target - bounceResult(0, duration - process) + start;
+		end;
 	end;
 end;
 
 function library:resumeTween(targetInstance, targetProperty: string, targetFunction)
-	for number, index in pairs(self.suspended) do
+	for number, index in pairs(suspended) do
 		if ((index.instance == targetInstance) and (index.property == targetProperty)) then
 			index:update(targetFunction);
 			index:replay();
-			table.insert(self.active, index);
-			table.remove(self.suspended, number);
+			active[#active + 1] = index;
+			remove(suspended, number);
 			local findResult = library:findTween(targetInstance, targetProperty);
 			return findResult;
 		end;
@@ -376,5 +526,5 @@ function library:transformTarget(target, transformType: string)
 end;
 
 --———————————— run ————————————--
-task.spawn(tweenCollector);
+spawn(tweenCollector);
 return library;
